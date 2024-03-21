@@ -16,6 +16,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,7 +33,7 @@ android {
 }
 
 dependencies {
-
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
