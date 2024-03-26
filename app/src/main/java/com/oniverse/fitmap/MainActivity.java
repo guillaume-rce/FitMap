@@ -12,19 +12,22 @@ import androidx.core.content.ContextCompat;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import androidx.annotation.NonNull;
 
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
+import com.oniverse.fitmap.modules.MapRenderer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private ActivityMainBinding binding;
 
-    private MapView map;
+    private MapRenderer map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +40,19 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        map = findViewById(R.id.map);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-
         requestPermissionsIfNecessary(new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         });
+
+        MapView map_v = findViewById(R.id.map);
+        map = new MapRenderer(map_v, TileSourceFactory.MAPNIK);
+        map.setZoom(9.5F, new GeoPoint(48.8583, 2.2944));
+        map.addMapScaleBarOverlay();
+        map.addRotationGestureOverlay();
+        map.addMyLocationOverlay();
+        map.addCompassOverlay();
     }
 
     @Override
@@ -65,10 +73,8 @@ public class MainActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (int i = 0; i < grantResults.length; i++) {
-            permissionsToRequest.add(permissions[i]);
-        }
+        ArrayList<String> permissionsToRequest = new ArrayList<>(
+                Arrays.asList(permissions).subList(0, grantResults.length));
 
         if (!permissionsToRequest.isEmpty()) {
             ActivityCompat.requestPermissions(
@@ -83,10 +89,10 @@ public class MainActivity extends AppCompatActivity {
         for (String permission : permissions) {
              if (ContextCompat.checkSelfPermission(this, permission)
                     != PackageManager.PERMISSION_GRANTED) {
-                // Permission is not granted
                 permissionsToRequest.add(permission);
             }
         }
+
         if (!permissionsToRequest.isEmpty()) {
             ActivityCompat.requestPermissions(
                 this,
