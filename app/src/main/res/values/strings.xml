@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FitMap</string>
+    <string name="logoDesc">Logo de Fitmap.</string>
 </resources>

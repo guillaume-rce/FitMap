@@ -67,7 +67,7 @@ public class MapRenderer {
     }
 
     public void addMyLocationOverlay() {
-        // TODO: Use another method because this one doesn't work
+        // TODO: Use another method because this one seems to don't work
         if (this.mLocationOverlay == null) {
             mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), map);
             mLocationOverlay.enableMyLocation();
