@@ -17,7 +17,7 @@
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/Logo_Fitmap_nobg"
+        app:srcCompat="@drawable/logo_fitmap_nobg"
         android:contentDescription="@string/logoDesc" />
 
     <LinearLayout
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:iconifiedByDefault="false"
             android:queryHint="Search"
-            android:background="@drawable/searchButtonBorder" />
+            android:background="@drawable/search_button_border" />
 
     </LinearLayout>
 

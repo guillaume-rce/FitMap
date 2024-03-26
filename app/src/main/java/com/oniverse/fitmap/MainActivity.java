@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -53,6 +54,15 @@ public class MainActivity extends AppCompatActivity {
         map.addRotationGestureOverlay();
         map.addMyLocationOverlay();
         map.addCompassOverlay();
+
+        // Add the alert fragment
+        LinearLayout alertContainer = findViewById(R.id.main_alert);
+        MainAlert alert = MainAlert.newInstance(
+            R.drawable.icon_position,
+            "Welcome back to FitMap!",
+            "We have find a lot of trails for you to explore. Let's get started!"
+        );
+        getSupportFragmentManager().beginTransaction().add(alertContainer.getId(), alert).commit();
     }
 
     @Override
