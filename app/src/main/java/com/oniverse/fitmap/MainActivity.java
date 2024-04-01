@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import org.osmdroid.views.MapView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
 
@@ -63,6 +65,23 @@ public class MainActivity extends AppCompatActivity {
             "We have find a lot of trails for you to explore. Let's get started!"
         );
         getSupportFragmentManager().beginTransaction().add(alertContainer.getId(), alert).commit();
+
+        // ---------------- Add navbar ----------------
+        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.navigation_home) {
+                    return true;
+                } else if (item.getItemId() == R.id.navigation_explore) {
+                    return true;
+                } else if (item.getItemId() == R.id.navigation_help) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     @Override
