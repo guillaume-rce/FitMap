@@ -2,6 +2,7 @@ package com.oniverse.fitmap;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,27 +27,27 @@ import com.oniverse.fitmap.modules.MapRenderer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class ExploreActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private ActivityMainBinding binding;
+    private ActivityMainBinding binding_explore;
 
     private MapRenderer map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding_explore = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding_explore.getRoot());
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_explore);
 
         requestPermissionsIfNecessary(new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
         });
 
         MapView map_v = findViewById(R.id.map);
@@ -57,25 +58,18 @@ public class MainActivity extends AppCompatActivity {
         map.addMyLocationOverlay();
         map.addCompassOverlay();
 
-        // Add the alert fragment
-        LinearLayout alertContainer = findViewById(R.id.main_alert);
-        MainAlert alert = MainAlert.newInstance(
-            R.drawable.icon_position,
-            "Welcome back to FitMap!",
-            "We have find a lot of trails for you to explore. Let's get started!"
-        );
-        getSupportFragmentManager().beginTransaction().add(alertContainer.getId(), alert).commit();
-
         // ---------------- Add navbar ----------------
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.navigation_home) {
+                    startActivity(new Intent(ExploreActivity.this, MainActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.navigation_explore) {
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
+                    startActivity(new Intent(ExploreActivity.this, ChatActivity.class));
                     return true;
                 } else {
                     return false;
@@ -116,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (String permission : permissions) {
-             if (ContextCompat.checkSelfPermission(this, permission)
+            if (ContextCompat.checkSelfPermission(this, permission)
                     != PackageManager.PERMISSION_GRANTED) {
                 permissionsToRequest.add(permission);
             }
@@ -124,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (!permissionsToRequest.isEmpty()) {
             ActivityCompat.requestPermissions(
-                this,
-                permissionsToRequest.toArray(new String[0]),
-                REQUEST_PERMISSIONS_REQUEST_CODE);
+                    this,
+                    permissionsToRequest.toArray(new String[0]),
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
 }
