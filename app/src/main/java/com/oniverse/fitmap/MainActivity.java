@@ -2,10 +2,12 @@ package com.oniverse.fitmap;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.LinearLayout;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,6 +20,7 @@ import org.osmdroid.views.MapView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
 
@@ -63,6 +66,23 @@ public class MainActivity extends AppCompatActivity {
             "We have find a lot of trails for you to explore. Let's get started!"
         );
         getSupportFragmentManager().beginTransaction().add(alertContainer.getId(), alert).commit();
+        // ---------------- Add navbar ----------------
+        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected( MenuItem item) {
+                if (item.getItemId() == R.id.navigation_home) {
+                    return true;
+                } else if (item.getItemId() == R.id.navigation_explore) {
+                    startActivity(new Intent(MainActivity.this, ExploreActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.navigation_chat) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     @Override
@@ -110,4 +130,5 @@ public class MainActivity extends AppCompatActivity {
                 REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
+
 }
