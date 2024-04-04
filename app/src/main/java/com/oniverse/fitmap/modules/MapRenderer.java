@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
+import com.oniverse.fitmap.R;
+import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -175,11 +178,16 @@ public class MapRenderer {
     }
 
     public Marker addMarker(GeoPoint point, String title, Drawable icon) {
+        return addMarker(point, title, icon, Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+    }
+
+    public Marker addMarker(GeoPoint point, String title, Drawable icon,
+            float anchorU, float anchorV) {
         Marker marker = new Marker(map);
         markers.add(marker);
 
         marker.setPosition(point);
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+        marker.setAnchor(anchorU, anchorV);
         map.getOverlays().add(marker);
 
         marker.setIcon(icon);
@@ -205,4 +213,12 @@ public class MapRenderer {
     public void setTileSource(ITileSource tileSource) {
         map.setTileSource(tileSource);
     }
+
+    public void drawPoint(TrackPoint trackPoint, String title) {
+        GeoPoint startPoint = new GeoPoint(trackPoint.getLatitude(), trackPoint.getLongitude());
+        this.addMarker(startPoint,  title, context.getDrawable(R.drawable.icon_location),
+                Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+    }
+
+
 }
