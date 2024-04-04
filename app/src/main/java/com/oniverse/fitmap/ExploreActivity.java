@@ -72,6 +72,7 @@ public class ExploreActivity extends AppCompatActivity {
                     startActivity(new Intent(ExploreActivity.this, ChatActivity.class));
                     return true;
                 } else {
+
                     return false;
                 }
             }
