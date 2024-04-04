@@ -34,6 +34,9 @@ android {
 
 dependencies {
     implementation("org.osmdroid:osmdroid-android:6.1.18")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("org.simpleframework:simple-xml:2.7.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

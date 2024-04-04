@@ -3,6 +3,7 @@ package com.oniverse.fitmap;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -22,6 +23,11 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
+import com.oniverse.fitmap.modules.gpxparser.Gpx;
+import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
+import com.oniverse.fitmap.modules.tracks.Track;
+import com.oniverse.fitmap.modules.tracks.TrackList;
+import com.oniverse.fitmap.modules.tracks.api.ApiClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         map.addRotationGestureOverlay();
         map.addMyLocationOverlay();
         map.addCompassOverlay();
+
+        ApiClient.findTracks(1, true, this, map);
 
         // Add the alert fragment
         LinearLayout alertContainer = findViewById(R.id.main_alert);
