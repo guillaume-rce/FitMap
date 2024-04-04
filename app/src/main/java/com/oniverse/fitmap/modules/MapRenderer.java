@@ -214,8 +214,8 @@ public class MapRenderer {
         map.setTileSource(tileSource);
     }
 
-    public void drawFirstPoint(TrackPoint firstTrackPoint, String title) {
-        GeoPoint startPoint = new GeoPoint(firstTrackPoint.getLatitude(), firstTrackPoint.getLongitude());
+    public void drawPoint(TrackPoint trackPoint, String title) {
+        GeoPoint startPoint = new GeoPoint(trackPoint.getLatitude(), trackPoint.getLongitude());
         this.addMarker(startPoint,  title, context.getDrawable(R.drawable.icon_location),
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
     }

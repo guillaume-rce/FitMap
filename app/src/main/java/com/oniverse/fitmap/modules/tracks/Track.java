@@ -27,7 +27,7 @@ public class Track {
 
     public void setGpx(Gpx gpx, MapRenderer mapRenderer) {
         this.gpx = gpx;
-        mapRenderer.drawFirstPoint(gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint(),
+        mapRenderer.drawPoint(gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint(),
                 this.name);
     }
 
