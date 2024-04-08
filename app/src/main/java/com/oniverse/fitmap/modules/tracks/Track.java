@@ -26,14 +26,6 @@ public class Track {
         this.gpxTrack = gpxTrack;
     }
 
-    public TrackPoint getStartPoint() {
-        return gpxTrack.getGpx().getTrack().get(0).getFirstSegment().getFirstTrackPoint();
-    }
-
-    public TrackPoint getEndPoint() {
-        return gpxTrack.getGpx().getTrack().get(0).getLastSegment().getLastTrackPoint();
-    }
-
     public static class Activity {
         public long id;
         public String name;
@@ -47,6 +39,7 @@ public class Track {
     
     public static class Location {
         public String name;
+        public TrackPoint point;
     }
 
     public static class GpxTrack {
