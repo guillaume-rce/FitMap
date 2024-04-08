@@ -16,44 +16,58 @@ public class Track {
     public Location start_location;
     public Location end_location;
 
-    private Gpx gpx;
+    private GpxTrack gpxTrack;
 
-    public Gpx getGpx() {
-        return gpx;
+    public GpxTrack getGpxTrack() {
+        return gpxTrack;
     }
 
-    public void setGpx(Gpx gpx) {
-        this.gpx = gpx;
-    }
-
-    public void setGpx(Gpx gpx, MapRenderer mapRenderer) {
-        this.gpx = gpx;
-        mapRenderer.drawPoint(gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint(),
-                this.name);
+    public void setGpxTrack(GpxTrack gpxTrack) {
+        this.gpxTrack = gpxTrack;
     }
 
     public TrackPoint getStartPoint() {
-        if (gpx == null) return null;
-        return gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint();
+        gpxTrack.parseGpx();
+        TrackPoint point = gpxTrack.gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint();
+        gpxTrack.purgeGpx();
+        return point;
     }
 
     public TrackPoint getEndPoint() {
-        if (gpx == null) return null;
-        return gpx.getTrack().get(0).getLastSegment().getLastTrackPoint();
+        if (gpxTrack.gpx == null) return null;
+        return gpxTrack.gpx.getTrack().get(0).getLastSegment().getLastTrackPoint();
     }
 
-    public class Activity {
+    public static class Activity {
         public long id;
         public String name;
         public String i18n;
     }
 
-    public class Elevation {
+    public static class Elevation {
         public long ascent;
         public long descent;
     }
     
-    public class Location {
+    public static class Location {
         public String name;
+    }
+
+    public static class GpxTrack {
+        public String path;
+        public Gpx gpx;
+
+        public GpxTrack(String path) {
+            this.path = path;
+        }
+
+        public void parseGpx() {
+            gpx = Gpx.readGpxFile(path);
+        }
+
+        public void purgeGpx() {
+            gpx = null;
+            System.gc();
+        }
     }
 }

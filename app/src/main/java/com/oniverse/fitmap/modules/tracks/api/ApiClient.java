@@ -4,13 +4,13 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.oniverse.fitmap.modules.MapRenderer;
-import com.oniverse.fitmap.modules.gpxparser.Gpx;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,6 +20,7 @@ import retrofit2.Response;
 
 public class ApiClient {
     private static final String BASE_URL = "https://api.openrunner.com/api/v2/";
+    private static final int timeout = 30;
 
     public static void findTracks(int page) {
         findTracks(page, false, null);
@@ -30,8 +31,15 @@ public class ApiClient {
     }
 
     public static void findTracks(int page, boolean downloadGpx, Context context, Callable<Void> callback) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
+                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
+                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -69,8 +77,15 @@ public class ApiClient {
     }
 
     public static void setMetaData(Callable<Void> callback) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
+                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
+                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -106,8 +121,15 @@ public class ApiClient {
     }
 
     public static void downloadGpxFile(Track track, Context context, Callable<Void> callback) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
+                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
+                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -121,8 +143,7 @@ public class ApiClient {
                             System.out.println("Downloaded GPX file to: " + pathToGpx);
                             System.out.println("-----------------------------------");
                             if (pathToGpx != null)
-                                track.setGpx(Gpx.readGpxFile(pathToGpx));
-
+                                track.setGpxTrack(new Track.GpxTrack(pathToGpx));
                             try {
                                 callback.call();
                             } catch (Exception e) {

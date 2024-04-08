@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        System.out.println("-------------------------------------------------------");
         ApiClient.setMetaData(() -> {
             loadTracks();
             return null;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadTracks() {
-        total_page = TrackList.getInstance().getApiMetaData().totalPage;
+        total_page = 5;
         for (int i = 1; i <= total_page; i++) {
             ApiClient.findTracks(i, true, this, () -> {
                 setProgressBarValue();
@@ -41,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setProgressBarValue() {
+        System.out.println("PROGRESS ---------------------------------------------------");
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         int total = TrackList.getInstance().getTotalWithGpx();
         int perPage = TrackList.getInstance().getApiMetaData().perPage;
         progress = (total * 100) / (total_page * perPage);
+        System.out.println(progress);
         progressBar.setProgress(progress);
     }
 

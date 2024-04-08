@@ -22,7 +22,7 @@ public class TrackList {
     }
 
     public int getTotalWithGpx() {
-        return (int) tracks.stream().filter(track -> track.getGpx() != null).count();
+        return (int) tracks.stream().filter(track -> track.getGpxTrack() != null).count();
     }
 
     public Track getTrack(long id) {
