@@ -1,4 +1,4 @@
-package com.oniverse.fitmap.modules;
+package com.oniverse.fitmap.modules.chat;
 
 import android.view.LayoutInflater;
 import android.view.View;

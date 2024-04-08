@@ -2,7 +2,6 @@ package com.oniverse.fitmap;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -17,8 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.oniverse.fitmap.modules.Message;
-import com.oniverse.fitmap.modules.MessageAdapter;
+import com.oniverse.fitmap.modules.chat.Message;
+import com.oniverse.fitmap.modules.chat.MessageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
