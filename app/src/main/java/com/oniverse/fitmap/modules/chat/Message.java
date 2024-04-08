@@ -22,6 +22,7 @@ public class Message {
         this.userId = userId;
     }
 
+
     // Getters et setters pour tous les champs
 
     public String getSenderId() {

@@ -19,6 +19,7 @@ import org.osmdroid.views.MapView;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.oniverse.fitmap.databinding.ActivityExploreBinding;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.tracks.TrackList;
@@ -29,14 +30,14 @@ import java.util.Arrays;
 
 public class ExploreActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private ActivityMainBinding binding_explore;
+    private ActivityExploreBinding binding_explore;
 
     private MapRenderer map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding_explore = ActivityMainBinding.inflate(getLayoutInflater());
+        binding_explore = ActivityExploreBinding.inflate(getLayoutInflater());
         setContentView(binding_explore.getRoot());
 
         Context ctx = getApplicationContext();
@@ -68,7 +69,7 @@ public class ExploreActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.navigation_home) {
-                    startActivity(new Intent(ExploreActivity.this, MainActivity.class));
+                    startActivity(new Intent(ExploreActivity.this, HomeActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.navigation_explore) {
                     return true;
