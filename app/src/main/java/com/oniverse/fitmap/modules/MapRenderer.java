@@ -147,21 +147,13 @@ public class MapRenderer {
                     @Override
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                         // Here we can perform some action on single tap
-                        try {
-                            singleTapCallback.call();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        System.out.println("Single tap on item " + index + " (" + item.getTitle() + ")");
                         return true;
                     }
                     @Override
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
                         // Here we can perform some action on long press
-                        try {
-                            longPressCallback.call();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        System.out.println("Long press on item " + index + " (" + item.getTitle() + ")");
                         return true;
                     }
                 }, context);
@@ -220,5 +212,8 @@ public class MapRenderer {
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
     }
 
-
+    public void drawPoint(TrackPoint trackPoint, String title, Callable<Void> callback, Callable<Void> longPressCallback) {
+        GeoPoint startPoint = new GeoPoint(trackPoint.getLatitude(), trackPoint.getLongitude());
+        this.addIconWithCallback(startPoint, title, "", callback, longPressCallback);
+    }
 }

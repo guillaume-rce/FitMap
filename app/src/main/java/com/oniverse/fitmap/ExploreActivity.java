@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
+import com.oniverse.fitmap.modules.tracks.TrackList;
+import com.oniverse.fitmap.modules.tracks.Track;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +57,10 @@ public class ExploreActivity extends AppCompatActivity {
         map.addRotationGestureOverlay();
         map.addMyLocationOverlay();
         map.addCompassOverlay();
+
+        for (Track track: TrackList.getInstance().getTracks()) {
+            map.drawPoint(track.start_location.point, track.name, null, null);
+        }
 
         // ---------------- Add navbar ----------------
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
