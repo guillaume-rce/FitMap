@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
+import com.oniverse.fitmap.modules.gpxparser.Gpx;
+import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
+import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 import com.oniverse.fitmap.modules.tracks.api.ApiClient;
 
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setProgressBarValue() {
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        ProgressBar progressBar = findViewById(R.id.download_bar);
         int total = TrackList.getInstance().getTotalWithGpx();
         int perPage = TrackList.getInstance().getApiMetaData().perPage;
         progress = (total * 100) / (total_page * perPage);
@@ -51,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchToHomeActivity() {
         if (progress >= 100) {
-            System.out.println("All tracks loaded");
+            loadPoints();
+
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
 
@@ -63,6 +68,22 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void loadPoints() {
+        ArrayList<Track> tracks = TrackList.getInstance().getTracks();
+        for (int i = 0; i < tracks.size(); i++) {
+            Track track = tracks.get(i);
+            Gpx gpx = track.getGpxTrack().getGpx();
+            TrackPoint firstPoint = gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint();
+            TrackPoint lastPoint = gpx.getTrack().get(0).getLastSegment().getLastTrackPoint();
+            track.start_location.point = firstPoint;
+            track.end_location.point = lastPoint;
+
+            int percent = (i * 100) / tracks.size();
+            ProgressBar progressBar = findViewById(R.id.load_bar);
+            progressBar.setProgress(percent);
         }
     }
 }

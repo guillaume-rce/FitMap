@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         map.addCompassOverlay();
 
         for (Track track: TrackList.getInstance().getTracks()) {
-            TrackPoint firstPoint = track.getStartPoint();
+            TrackPoint firstPoint = track.start_location.point;
             if (firstPoint != null)
                 map.drawPoint(firstPoint, track.name);
         }
