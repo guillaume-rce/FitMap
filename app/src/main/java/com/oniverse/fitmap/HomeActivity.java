@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.oniverse.fitmap.databinding.ActivityHomeBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
+import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 
@@ -64,8 +65,9 @@ public class HomeActivity extends AppCompatActivity {
         map.addCompassOverlay();
 
         for (Track track: TrackList.getInstance().getTracks()) {
-            if (track.getStartPoint() != null)
-                map.drawPoint(track.getStartPoint(), track.name);
+            TrackPoint firstPoint = track.getStartPoint();
+            if (firstPoint != null)
+                map.drawPoint(firstPoint, track.name);
         }
 
         // Add the alert fragment
