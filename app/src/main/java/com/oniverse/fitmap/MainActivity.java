@@ -11,6 +11,7 @@ import com.oniverse.fitmap.modules.tracks.TrackList;
 import com.oniverse.fitmap.modules.tracks.api.ApiClient;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        System.out.println("-------------------------------------------------------");
         ApiClient.setMetaData(() -> {
             loadTracks();
             return null;
@@ -42,12 +42,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setProgressBarValue() {
-        System.out.println("PROGRESS ---------------------------------------------------");
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         int total = TrackList.getInstance().getTotalWithGpx();
         int perPage = TrackList.getInstance().getApiMetaData().perPage;
         progress = (total * 100) / (total_page * perPage);
-        System.out.println(progress);
         progressBar.setProgress(progress);
     }
 
@@ -56,6 +54,15 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("All tracks loaded");
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
+
+            System.gc();
+            Runtime.getRuntime().gc();
+
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -27,15 +27,11 @@ public class Track {
     }
 
     public TrackPoint getStartPoint() {
-        gpxTrack.parseGpx();
-        TrackPoint point = gpxTrack.gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint();
-        gpxTrack.purgeGpx();
-        return point;
+        return gpxTrack.getGpx().getTrack().get(0).getFirstSegment().getFirstTrackPoint();
     }
 
     public TrackPoint getEndPoint() {
-        if (gpxTrack.gpx == null) return null;
-        return gpxTrack.gpx.getTrack().get(0).getLastSegment().getLastTrackPoint();
+        return gpxTrack.getGpx().getTrack().get(0).getLastSegment().getLastTrackPoint();
     }
 
     public static class Activity {
@@ -54,20 +50,28 @@ public class Track {
     }
 
     public static class GpxTrack {
-        public String path;
-        public Gpx gpx;
+        private String path;
+        private Gpx gpx;
 
         public GpxTrack(String path) {
             this.path = path;
         }
 
-        public void parseGpx() {
+        private void parseGpx() {
             gpx = Gpx.readGpxFile(path);
         }
 
-        public void purgeGpx() {
+        private void purgeGpx() {
             gpx = null;
             System.gc();
+            Runtime.getRuntime().gc();
+        }
+
+        public Gpx getGpx() {
+            parseGpx();
+            Gpx gpx = this.gpx;
+            purgeGpx();
+            return gpx;
         }
     }
 }

@@ -39,6 +39,9 @@ public class GpxDownloader {
                     fileSizeDownloaded += read;
                 }
 
+                System.gc();
+                Runtime.getRuntime().gc();
+
                 outputStream.flush();
                 return file.getAbsolutePath();
 

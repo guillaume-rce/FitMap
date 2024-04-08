@@ -52,14 +52,16 @@ public class ApiClient {
                 if (response.isSuccessful()) {
                     TracksResponse routeResponse = response.body();
                     if (routeResponse != null) {
-                        System.out.println("tout est ok");
+                        TrackList.getInstance().addTracks(routeResponse.data);
+
                         if (downloadGpx) {
                             for (Track track : routeResponse.data) {
-                                System.out.println("Downloading GPX file for track " + track.id);
                                 downloadGpxFile(track, context, callback);
                             }
                         }
-                        TrackList.getInstance().addTracks(routeResponse.data);
+
+                        System.gc();
+                        Runtime.getRuntime().gc();
                         try {
                             callback.call();
                         } catch (Exception e) {
@@ -100,6 +102,8 @@ public class ApiClient {
                         TrackList.getInstance().setApiMetaData(
                                 new TrackList.ApiMetaData(routeResponse.meta.last_page,
                                         routeResponse.meta.total, routeResponse.meta.per_page));
+                        System.gc();
+                        Runtime.getRuntime().gc();
                         try {
                             callback.call();
                         } catch (Exception e) {
@@ -141,9 +145,11 @@ public class ApiClient {
                             assert response.body() != null;
                             String pathToGpx = GpxDownloader.saveGpx(track.id, response.body(), context);
                             System.out.println("Downloaded GPX file to: " + pathToGpx);
-                            System.out.println("-----------------------------------");
                             if (pathToGpx != null)
                                 track.setGpxTrack(new Track.GpxTrack(pathToGpx));
+
+                            System.gc();
+                            Runtime.getRuntime().gc();
                             try {
                                 callback.call();
                             } catch (Exception e) {
