@@ -10,41 +10,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:ignore="UselessParent">
+        tools:ignore="UselessParent"
+        android:background="#efffef">
 
-        <include layout="@layout/banner"
-            android:id="@+id/main_banner"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="5"
+            android:src="@drawable/logo_fitmap_nobg"
+            android:scaleType="center"
+            android:contentDescription="@string/app_name"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="@string/loading"
+            android:textSize="40sp"
+            android:textAlignment="center" />
+
         <LinearLayout
-            android:id="@+id/main_alert"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:layout_gravity="top"
+            android:paddingTop="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:orientation="horizontal"
+            >
 
-            android:orientation="horizontal" />
-
-        <org.osmdroid.views.MapView
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="0"
+                android:max="100"
+                />
+        </LinearLayout>
     </LinearLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/nav_bar_menu"
-        app:itemIconTint="#044D00"
-        app:itemBackground="@drawable/item_ripple" />
 </RelativeLayout>

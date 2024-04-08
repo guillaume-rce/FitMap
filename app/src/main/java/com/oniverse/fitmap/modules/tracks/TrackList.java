@@ -10,6 +10,8 @@ public class TrackList {
     private final ArrayList<Track> tracks;
     private int total;
 
+    private ApiMetaData apiMetaData;
+
     public TrackList() {
         tracks = new ArrayList<>();
         total = 0;
@@ -17,6 +19,10 @@ public class TrackList {
 
     public int getTotal() {
         return total;
+    }
+
+    public int getTotalWithGpx() {
+        return (int) tracks.stream().filter(track -> track.getGpx() != null).count();
     }
 
     public Track getTrack(long id) {
@@ -43,5 +49,25 @@ public class TrackList {
             instance = new TrackList();
         }
         return instance;
+    }
+
+    public void setApiMetaData(ApiMetaData apiMetaData) {
+        this.apiMetaData = apiMetaData;
+    }
+
+    public ApiMetaData getApiMetaData() {
+        return apiMetaData;
+    }
+
+    public static class ApiMetaData {
+        public int totalPage;
+        public int totalTracks;
+        public int perPage;
+
+        public ApiMetaData(int totalPage, int totalTracks, int perPage) {
+            this.totalPage = totalPage;
+            this.totalTracks = totalTracks;
+            this.perPage = perPage;
+        }
     }
 }
