@@ -21,5 +21,7 @@ public class TracksResponse {
         public int from;
         public int to;
         public int last_page;
+        public int per_page;
+        public int total;
     }
 }

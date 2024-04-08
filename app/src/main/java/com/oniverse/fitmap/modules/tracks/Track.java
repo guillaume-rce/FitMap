@@ -2,6 +2,7 @@ package com.oniverse.fitmap.modules.tracks;
 
 import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.gpxparser.Gpx;
+import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 
 public class Track {
     public long id;
@@ -29,6 +30,16 @@ public class Track {
         this.gpx = gpx;
         mapRenderer.drawPoint(gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint(),
                 this.name);
+    }
+
+    public TrackPoint getStartPoint() {
+        if (gpx == null) return null;
+        return gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint();
+    }
+
+    public TrackPoint getEndPoint() {
+        if (gpx == null) return null;
+        return gpx.getTrack().get(0).getLastSegment().getLastTrackPoint();
     }
 
     public class Activity {
