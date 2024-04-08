@@ -6,14 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
+    <include layout="@layout/chat_profile_banner"
+        android:id="@+id/profil_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/profil_banner"
         android:layout_above="@+id/layout_send_message"
-        android:padding="16dp"
         android:clipToPadding="false"
+        android:padding="16dp"
         android:scrollbars="vertical" />
 
     <LinearLayout

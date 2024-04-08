@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadTracks() {
-        total_page = 5;
+        total_page = 20;
         for (int i = 1; i <= total_page; i++) {
             ApiClient.findTracks(i, true, this, () -> {
                 setProgressBarValue();

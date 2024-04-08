@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.oniverse.fitmap.databinding.ActivityChatBinding;
 import com.oniverse.fitmap.modules.chat.Message;
 import com.oniverse.fitmap.modules.chat.MessageAdapter;
 
@@ -28,10 +29,14 @@ public class ChatActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private List<Message> messages;
     private DatabaseReference mDatabase;
+    private ActivityChatBinding binding_chat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding_chat = ActivityChatBinding.inflate(getLayoutInflater());
+        setContentView(binding_chat.getRoot());
         setContentView(R.layout.activity_chat);
 
         // Initialisation de la référence à la base de données
@@ -87,6 +92,8 @@ public class ChatActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
+        // Ecouter les nouveaux messages
+        listenForNewMessages();
         ImageButton sendButton = findViewById(R.id.button_send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,5 +125,35 @@ public class ChatActivity extends AppCompatActivity {
             messages.add(message);
             messageAdapter.notifyDataSetChanged();
         }
+    }
+
+    // implementer la méthode pour ecouter les nouveaux messages
+     private void listenForNewMessages() {
+        mDatabase.child("messages").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Message message = dataSnapshot.getValue(Message.class);
+
+                // ajouter la proprieté de message reçu
+                message.setSent(false);
+                if (!messages.contains(message)) {
+                    messages.add(message);
+                    messageAdapter.notifyDataSetChanged();
+                }
+            }
+
+            // Implémentez les autres méthodes de ChildEventListener
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 }

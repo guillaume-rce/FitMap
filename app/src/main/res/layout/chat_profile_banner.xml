@@ -13,7 +13,7 @@
         android:id="@+id/imageButton"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
@@ -24,11 +24,11 @@
         android:id="@+id/returnButton"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/ic_profile"
+        app:srcCompat="@drawable/profile"
         android:contentDescription="@string/logoDesc" />
     <LinearLayout
         android:layout_width="0dp"
@@ -42,11 +42,31 @@
             android:layout_height="match_parent"
             android:iconifiedByDefault="false"
             android:queryHint="Search"
-            android:gravity="center"
-
-            android:background="@drawable/search_button_border"
-            android:text="nom utilisateur"/>
+            android:gravity="start|center"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:text="Username"/>
 
     </LinearLayout>
+    <ImageButton
+        android:id="@+id/callbutton"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:backgroundTint="#00FFFFFF"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/ic_phone"
+        android:contentDescription="@string/logoDesc" />
+    <ImageButton
+        android:id="@+id/ic_video_call"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:backgroundTint="#00FFFFFF"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/ic_video_call"
+        android:contentDescription="@string/logoDesc" />
 
 </LinearLayout>
