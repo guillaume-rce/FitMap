@@ -2,64 +2,122 @@ package com.oniverse.fitmap;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.nexmo.client.NexmoClient;
-import com.nexmo.client.request_listener.NexmoConnectionListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.oniverse.fitmap.modules.Message;
+import com.oniverse.fitmap.modules.MessageAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private NexmoClient client;
-
-    private ConstraintLayout chatContainer;
-    private LinearLayout loginContainer;
-    private EditText messageEditText;
-    private TextView conversationTextView;
+    private RecyclerView recyclerView;
+    private MessageAdapter messageAdapter;
+    private List<Message> messages;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat); // Ajout de cette ligne pour définir le layout de l'activité
-        chatContainer = findViewById(R.id.chatContainer);
-        loginContainer = findViewById(R.id.loginContainer);
-        messageEditText = findViewById(R.id.messageEditText);
-        conversationTextView = findViewById(R.id.conversationTextView);
-        client = new NexmoClient.Builder().build(this);
-        client.setConnectionListener((connectionStatus, connectionStatusReason) -> {
-            if (connectionStatus == NexmoConnectionListener.ConnectionStatus.CONNECTED) {
-                Toast.makeText(this, "User connected", Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.activity_chat);
 
-                getConversation();
-            } else if (connectionStatus == NexmoConnectionListener.ConnectionStatus.DISCONNECTED) {
-                Toast.makeText(this, "User disconnected", Toast.LENGTH_SHORT).show();
+        // Initialisation de la référence à la base de données
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-                runOnUiThread(() -> {
-                    chatContainer.setVisibility(View.GONE);
-                    loginContainer.setVisibility(View.VISIBLE);
-                });
+        messages = new ArrayList<>();
+        messageAdapter = new MessageAdapter(messages);
+        recyclerView.setAdapter(messageAdapter);
+
+        // Récupérer les messages existants une seule fois au démarrage
+        mDatabase.child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    Message message = messageSnapshot.getValue(Message.class);
+                    if (!messages.contains(message)) {
+                        messages.add(message);
+                    }
+                }
+                messageAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Gérer les erreurs
             }
         });
-        findViewById(R.id.loginAsAliceButton).setOnClickListener(it -> {
-            client.login();
 
-            runOnUiThread(() -> loginContainer.setVisibility(View.GONE));
+        // Écoute des nouveaux messages
+        mDatabase.child("messages").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Message message = dataSnapshot.getValue(Message.class);
+                if (!messages.contains(message)) {
+                    messages.add(message);
+                    messageAdapter.notifyDataSetChanged();
+                }
+            }
+
+            // Implémentez les autres méthodes de ChildEventListener
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
-        findViewById(R.id.loginAsBobButton).setOnClickListener(it -> {
-            client.login();
-
-            runOnUiThread(() -> loginContainer.setVisibility(View.GONE));
+        ImageButton sendButton = findViewById(R.id.button_send);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editTextMessage = findViewById(R.id.editText_message);
+                String messageContent = editTextMessage.getText().toString();
+                if (!messageContent.isEmpty()) {
+                    // Envoyer le message à Firebase
+                    sendMessage(messageContent, "userId"); // Remplacez "userId" par l'ID de l'utilisateur actuel
+                    // Effacer l'EditText après l'envoi
+                    editTextMessage.setText("");
+                }
+            }
         });
-
-        findViewById(R.id.logoutButton).setOnClickListener(it -> client.logout());
-
     }
-    private void getConversation() { }
 
+    // Méthode pour envoyer un message
+    private void sendMessage(String messageContent, String userId) {
+        // Création d'un nouvel enfant avec un ID unique
+        String key = mDatabase.child("messages").push().getKey();
+        Message message = new Message(userId, messageContent, true, System.currentTimeMillis(), userId);
+
+        // Envoi du message à Firebase
+        mDatabase.child("messages").child(key).setValue(message);
+
+        // Ajout du message à la liste locale pour mettre à jour l'affichage
+        // Vérifiez si le message existe déjà dans la liste
+        if (!messages.contains(message)) {
+            messages.add(message);
+            messageAdapter.notifyDataSetChanged();
+        }
+    }
 }
