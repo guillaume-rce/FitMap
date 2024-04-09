@@ -60,7 +60,7 @@ public class ExploreActivity extends AppCompatActivity {
         map.addCompassOverlay();
 
         for (Track track: TrackList.getInstance().getTracks()) {
-            map.drawPoint(track.start_location.point, track.name, null, null);
+            map.drawPointWithGpxLoader(track.start_location.point, track.name);
         }
 
         // ---------------- Add navbar ----------------

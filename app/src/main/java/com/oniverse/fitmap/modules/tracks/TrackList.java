@@ -30,6 +30,11 @@ public class TrackList {
         return trackStream.findFirst().orElse(null);
     }
 
+    public Track getTrack(String name) {
+        Stream<Track> trackStream = tracks.stream().filter(track -> track.name.equals(name));
+        return trackStream.findFirst().orElse(null);
+    }
+
     public ArrayList<Track> getTracks() {
         return tracks;
     }
