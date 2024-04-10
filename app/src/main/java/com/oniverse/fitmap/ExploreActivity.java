@@ -74,7 +74,7 @@ public class ExploreActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.navigation_explore) {
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
-                    startActivity(new Intent(ExploreActivity.this, SigninActivity.class));
+                    startActivity(new Intent(ExploreActivity.this, RegisterActivity.class));
                     return true;
                 } else {
                     return false;
