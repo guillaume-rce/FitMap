@@ -6,7 +6,7 @@ import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 
 import java.io.Serializable;
 
-public class Track implements Serializable {
+public class Track {
     public long id;
     public String name;
     public String created_at;

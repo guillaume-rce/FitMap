@@ -19,6 +19,7 @@ import org.w3c.dom.Text;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.PointValue;
@@ -58,32 +59,33 @@ public class TrackInfo extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
             track = getArguments().getString(ARG_PARAM1);
             Track t = TrackList.getInstance().getTrack(Long.parseLong(track));
 
-            TextView trackName = getView().findViewById(R.id.track_name);
+            TextView trackName = view.findViewById(R.id.track_name);
             trackName.setText(t.name);
 
-            TextView trackDesc = getView().findViewById(R.id.track_description);
+            TextView trackDesc = view.findViewById(R.id.track_description);
             trackDesc.setText(t.activity.i18n);
 
-            TextView trackDuration = getView().findViewById(R.id.track_duration);
+            TextView trackDuration = view.findViewById(R.id.track_duration);
             Duration duration = Utils.getGpxDeltaTime(t.getGpxTrack().getGpx());
             trackDuration.setText(duration.toString());
 
-            TextView trackLength = getView().findViewById(R.id.track_length);
+            TextView trackLength = view.findViewById(R.id.track_length);
             trackLength.setText(String.valueOf(t.length));
 
             List<PointValue> points = Utils.getGpxElevationPoints(t.getGpxTrack().getGpx());
 
-            Line line = new Line(points).setColor(Color.BLUE).setCubic(true);
+            Line line = new Line(points).setColor(Color.BLUE);
+            line.setHasPoints(false);
             List<Line> lines = new ArrayList<Line>();
             lines.add(line);
 
-            LineChartView chart = getView().findViewById(R.id.chart);
+            LineChartView chart = view.findViewById(R.id.chart);
 
             LineChartData data = new LineChartData();
             data.setLines(lines);

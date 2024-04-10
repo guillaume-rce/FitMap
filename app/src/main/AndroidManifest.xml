@@ -30,7 +30,7 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".TestActivity"
+            android:name=".TrackActivity"
             android:exported="false" />
         <activity
             android:name=".SigninActivity"
