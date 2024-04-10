@@ -8,7 +8,6 @@
     android:background="#efffef"
     tools:context=".SigninActivity">
 
-    <!-- Vous pouvez créer un fichier de ressources personnalisé pour le fond de l'EditText -->
 
     <ImageView
         android:id="@+id/logoImageView"
