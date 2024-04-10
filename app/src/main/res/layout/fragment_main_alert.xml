@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainAlert"
+    tools:context=".fragment.MainAlert"
     android:background="@drawable/alert_background">
 
     <LinearLayout

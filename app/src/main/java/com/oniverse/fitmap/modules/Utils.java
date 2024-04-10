@@ -66,7 +66,7 @@ public class Utils {
                     List<TrackPoint> segmentPoints = segment.getTrackPoints();
                     for (TrackPoint point : segmentPoints) {
                         PointValue p = new PointValue(
-                                (float) getDistance(segment.getFirstTrackPoint(), point),
+                                (float) getDistanceWithGpx(segmentPoints.get(0), point, gpx),
                                 (float) point.getElevation());
 
                         if (points == null) {
@@ -81,18 +81,34 @@ public class Utils {
         return points;
     }
 
+    public static double getDistanceWithGpx(TrackPoint p1, TrackPoint p2, Gpx gpx) {
+        double distance = 0;
+        if (gpx != null) {
+            List<TrackPoint> trackPoints = gpx.getTrackPointsBetween(p1, p2);
+            if (trackPoints != null) {
+                for (int i = 0; i < trackPoints.size() - 1; i++) {
+                    distance += getDistance(trackPoints.get(i), trackPoints.get(i + 1));
+                }
+            }
+        }
+        return distance;
+    }
+
     public static double getDistance(TrackPoint p1, TrackPoint p2) {
-        double lat1 = p1.getLatitude();
-        double lon1 = p1.getLongitude();
-        double lat2 = p2.getLatitude();
-        double lon2 = p2.getLongitude();
-        double R = 6371e3; // metres
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return (R * c);
+        double distance = 0;
+        if (p1 != null && p2 != null) {
+            double lat1 = p1.getLatitude();
+            double lon1 = p1.getLongitude();
+            double lat2 = p2.getLatitude();
+            double lon2 = p2.getLongitude();
+            double theta = lon1 - lon2;
+            distance = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) +
+                    Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+            distance = Math.acos(distance);
+            distance = Math.toDegrees(distance);
+            distance = distance * 60 * 1.1515;
+            distance = distance * 1.609344;
+        }
+        return distance;
     }
 }

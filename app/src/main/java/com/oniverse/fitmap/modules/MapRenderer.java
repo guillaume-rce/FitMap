@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import com.oniverse.fitmap.R;
-import com.oniverse.fitmap.TestActivity;
+import com.oniverse.fitmap.TrackActivity;
 import com.oniverse.fitmap.modules.gpxparser.Gpx;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.Track;
@@ -220,14 +220,14 @@ public class MapRenderer {
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
         marker.setOnMarkerClickListener((marker1, mapView) -> {
-            System.out.println("Marker clicked");
             TrackList trackList = TrackList.getInstance();
             Track track = trackList.getTrack(title);
 
-            Intent intent = new Intent(context, TestActivity.class);
+            Intent intent = new Intent(context, TrackActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable("track", track);
+            bundle.putLong("track_id", track.id);
             intent.putExtras(bundle);
+            context.startActivity(intent);
 
             return true;
         });

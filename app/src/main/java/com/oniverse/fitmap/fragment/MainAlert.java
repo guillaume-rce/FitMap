@@ -1,4 +1,4 @@
-package com.oniverse.fitmap;
+package com.oniverse.fitmap.fragment;
 
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.oniverse.fitmap.R;
 
 public class MainAlert extends Fragment {
 

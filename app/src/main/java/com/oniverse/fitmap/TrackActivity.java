@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.oniverse.fitmap.databinding.ActivityTrackBinding;
+import com.oniverse.fitmap.fragment.TrackInfo;
 import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;

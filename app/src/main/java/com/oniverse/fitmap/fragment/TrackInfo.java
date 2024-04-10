@@ -1,4 +1,4 @@
-package com.oniverse.fitmap;
+package com.oniverse.fitmap.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,16 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.oniverse.fitmap.R;
 import com.oniverse.fitmap.modules.Utils;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 
-import org.w3c.dom.Text;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.PointValue;
@@ -33,23 +31,13 @@ import lecho.lib.hellocharts.model.LineChartData;
  */
 public class TrackInfo extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "track";
-
-    // TODO: Rename and change types of parameters
     private String track;
 
     public TrackInfo() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param track Parameter 1.
-     * @return A new instance of fragment TrackInfo.
-     */
     public static TrackInfo newInstance(String track) {
         TrackInfo fragment = new TrackInfo();
         Bundle args = new Bundle();
@@ -86,6 +74,7 @@ public class TrackInfo extends Fragment {
             lines.add(line);
 
             LineChartView chart = view.findViewById(R.id.chart);
+            chart.setInteractive(false);
 
             LineChartData data = new LineChartData();
             data.setLines(lines);

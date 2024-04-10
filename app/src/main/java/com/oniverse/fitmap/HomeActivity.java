@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.oniverse.fitmap.databinding.ActivityHomeBinding;
+import com.oniverse.fitmap.fragment.MainAlert;
 import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.Track;
