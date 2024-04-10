@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class TrackList implements Serializable {
+public class TrackList {
     private static TrackList instance;
 
     private final ArrayList<Track> tracks;

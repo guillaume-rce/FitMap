@@ -14,13 +14,13 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:orientation="vertical"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/start_stop_background"
                 android:scaleType="centerCrop" />
 
@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:orientation="vertical">
 
                 <TextView
@@ -44,7 +44,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nom de la piste"
-                    android:layout_marginBottom="10dp"
                     android:textSize="24sp" />
 
                 <TextView
@@ -52,7 +51,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Description de la piste"
-                    android:layout_marginBottom="10dp"
                     android:textSize="16sp" />
 
                 <TextView
@@ -60,7 +58,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Durée de la piste"
-                    android:layout_marginBottom="10dp"
                     android:textSize="16sp" />
 
                 <TextView
@@ -76,8 +73,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3"
-                android:orientation="vertical">
+                android:layout_weight="4"
+                android:orientation="horizontal">
 
                 <lecho.lib.hellocharts.view.LineChartView
                     android:id="@+id/chart"

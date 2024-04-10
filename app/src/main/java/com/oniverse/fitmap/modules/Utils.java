@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.format.DateTimeParseException;
 
 import lecho.lib.hellocharts.model.PointValue;
 
@@ -36,11 +37,18 @@ public class Utils {
     public static ZonedDateTime getZonedDateTime(String time) {
         DateTimeFormatter formatter = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            // Updated pattern with 'X' to correctly interpret 'Z' as the timezone designator
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssX");
         }
         Instant instant = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            instant = Instant.from(formatter.parse(time));
+            try {
+                instant = Instant.from(formatter.parse(time));
+            } catch (DateTimeParseException e) {
+                // Handle the exception if the time string is not properly formatted
+                e.printStackTrace();
+                return null;
+            }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && instant != null) {
             return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
@@ -57,8 +65,9 @@ public class Utils {
                 for (TrackSegment segment : segments) {
                     List<TrackPoint> segmentPoints = segment.getTrackPoints();
                     for (TrackPoint point : segmentPoints) {
-                        PointValue p = new PointValue((float) point.getElevation(),
-                                (float) getDistance(segment.getFirstTrackPoint(), point));
+                        PointValue p = new PointValue(
+                                (float) getDistance(segment.getFirstTrackPoint(), point),
+                                (float) point.getElevation());
 
                         if (points == null) {
                             points = new ArrayList<>();
