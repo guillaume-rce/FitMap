@@ -60,7 +60,7 @@ public class ExploreActivity extends AppCompatActivity {
         map.addCompassOverlay();
 
         for (Track track: TrackList.getInstance().getTracks()) {
-            map.drawPointWithGpxLoader(track.start_location.point, track.name);
+            map.drawPointWithGpxLoader(track.start_location.point, track.name, getApplicationContext());
         }
 
         // ---------------- Add navbar ----------------
@@ -74,7 +74,7 @@ public class ExploreActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.navigation_explore) {
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
-                    startActivity(new Intent(ExploreActivity.this, RegisterActivity.class));
+                    startActivity(new Intent(ExploreActivity.this, ChatListActivity.class));
                     return true;
                 } else {
                     return false;

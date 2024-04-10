@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import com.oniverse.fitmap.R;
-import com.oniverse.fitmap.TestActivity;
 import com.oniverse.fitmap.modules.gpxparser.Gpx;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.Track;
@@ -223,10 +222,10 @@ public class MapRenderer {
             TrackList trackList = TrackList.getInstance();
             Track track = trackList.getTrack(title);
 
-            Intent intent = new Intent(context, TestActivity.class);
+            //Intent intent = new Intent(context, TestActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("track", track);
-            intent.putExtras(bundle);
+            //intent.putExtras(bundle);
 
             return true;
         });

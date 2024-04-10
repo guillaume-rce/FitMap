@@ -7,7 +7,7 @@
     android:id="@+id/main_conversationlayout"
     tools:context=".ChatActivity">
 
-    <include layout="@layout/conversation_banner"
+    <include layout="@layout/chatlist_banner"
         android:id="@+id/conversatiobanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

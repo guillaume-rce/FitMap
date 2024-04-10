@@ -27,6 +27,9 @@
         android:theme="@style/Theme.FitMap"
         tools:targetApi="31">
         <activity
+            android:name=".ChatList"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity

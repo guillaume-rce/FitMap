@@ -1,5 +1,6 @@
 package com.oniverse.fitmap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,8 +53,9 @@ public class SigninActivity extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
                         // Vous pouvez rediriger l'utilisateur vers l'activité principale ici
-                        Toast.makeText(SigninActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-                    } else {
+                        Intent intent = new Intent(SigninActivity.this, ChatActivity.class);
+                        startActivity(intent);
+                        finish();                    } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(SigninActivity.this, "Échec de la connexion", Toast.LENGTH_SHORT).show();
                     }

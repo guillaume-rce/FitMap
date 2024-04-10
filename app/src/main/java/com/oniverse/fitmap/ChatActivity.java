@@ -1,9 +1,11 @@
 package com.oniverse.fitmap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -108,6 +110,17 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ImageButton returnButton = findViewById(R.id.returnButton);
+
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ChatActivity.this, HomeActivity.class));
+                finish();
+            }
+        });
+
     }
 
     // Méthode pour envoyer un message
