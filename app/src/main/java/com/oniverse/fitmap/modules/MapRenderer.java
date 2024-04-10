@@ -5,17 +5,17 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
 import com.oniverse.fitmap.R;
+import com.oniverse.fitmap.modules.gpxparser.Gpx;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
+import com.oniverse.fitmap.modules.tracks.TrackList;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
@@ -26,6 +26,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MapRenderer {
     private final MapView map;
@@ -36,8 +37,8 @@ public class MapRenderer {
     private RotationGestureOverlay mRotationGestureOverlay;
     private ScaleBarOverlay mScaleBarOverlay;
 
-    private ArrayList<OverlayItem> items = new ArrayList<>();
     private ArrayList<Marker> markers = new ArrayList<>();
+    private ArrayList<Polyline> polylines = new ArrayList<>();
 
     public MapRenderer(MapView map) {
         this(map, TileSourceFactory.MAPNIK);
@@ -138,37 +139,6 @@ public class MapRenderer {
         removeMapScaleBarOverlay();
     }
 
-    public ItemizedOverlayWithFocus<OverlayItem> addIconWithCallback(GeoPoint point, String title, String snippet,
-                                    Callable<Void> singleTapCallback, Callable<Void> longPressCallback) {
-        items.add(new OverlayItem(title, snippet, point));
-
-        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                    @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        // Here we can perform some action on single tap
-                        System.out.println("Single tap on item " + index + " (" + item.getTitle() + ")");
-                        return true;
-                    }
-                    @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
-                        // Here we can perform some action on long press
-                        System.out.println("Long press on item " + index + " (" + item.getTitle() + ")");
-                        return true;
-                    }
-                }, context);
-        mOverlay.setFocusItemsOnTap(true);
-
-        map.getOverlays().add(mOverlay);
-        return mOverlay;
-    }
-
-    public void removeIcon(ItemizedOverlayWithFocus<OverlayItem> item) {
-        map.getOverlays().remove(item);
-        OverlayItem overlayItem = item.getItem(0);
-        items.remove(overlayItem);
-    }
-
     public Marker addMarker(GeoPoint point, String title, Drawable icon) {
         return addMarker(point, title, icon, Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
     }
@@ -192,6 +162,34 @@ public class MapRenderer {
         markers.remove(marker);
     }
 
+    public Polyline addPolyline(ArrayList<GeoPoint> geoPoints) {
+        Polyline line = new Polyline();
+        polylines.add(line);
+        line.setPoints(geoPoints);
+        line.setOnClickListener(null);
+        map.getOverlayManager().add(line);
+        return line;
+    }
+
+    public void removePolyline(Polyline line) {
+        map.getOverlayManager().remove(line);
+        polylines.remove(line);
+    }
+
+    public void clear() {
+        CopyOnWriteArrayList<Marker> markers = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<Polyline> polylines = new CopyOnWriteArrayList<>();
+        markers.addAll(this.markers);
+        polylines.addAll(this.polylines);
+
+        for (Marker marker : markers) {
+            removeMarker(marker);
+        }
+        for (Polyline line : polylines) {
+            removePolyline(line);
+        }
+    }
+
     // TODO: Add other makers and lines ( https://github.com/osmdroid/osmdroid/wiki/Markers,-Lines-and-Polygons-(Java)#marker-using-a-text-label-instead-of-an-icon )
 
     public void onResume() {
@@ -212,8 +210,34 @@ public class MapRenderer {
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
     }
 
-    public void drawPoint(TrackPoint trackPoint, String title, Callable<Void> callback, Callable<Void> longPressCallback) {
+    public void drawPointWithGpxLoader(TrackPoint trackPoint, String title) {
         GeoPoint startPoint = new GeoPoint(trackPoint.getLatitude(), trackPoint.getLongitude());
-        this.addIconWithCallback(startPoint, title, "", callback, longPressCallback);
+        Marker marker = this.addMarker(startPoint,  title, context.getDrawable(R.drawable.icon_location),
+                Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+
+        marker.setOnMarkerClickListener((marker1, mapView) -> {
+            TrackList trackList = TrackList.getInstance();
+            Gpx gpx = trackList.getTrack(title).getGpxTrack().getGpx();
+            this.clear();
+            this.setGpx(gpx);
+            return true;
+        });
+    }
+
+    public void setGpx(Gpx gpx) {
+
+        ArrayList<GeoPoint> geoPoints = new ArrayList<>();
+        for (TrackPoint trackPoint : gpx.getTrack().get(0).getFirstSegment().getTrackPoints()) {
+            geoPoints.add(new GeoPoint(trackPoint.getLatitude(), trackPoint.getLongitude()));
+        }
+        TrackPoint startPoint = gpx.getTrack().get(0).getFirstSegment().getFirstTrackPoint();
+        TrackPoint endPoint = gpx.getTrack().get(0).getLastSegment().getLastTrackPoint();
+        this.drawPoint(startPoint, "Start");
+        this.drawPoint(endPoint, "End");
+        this.addPolyline(geoPoints);
+
+        // Zoom and center the track
+        this.setZoom(15);
+        this.setCenter(geoPoints.get(0));
     }
 }
