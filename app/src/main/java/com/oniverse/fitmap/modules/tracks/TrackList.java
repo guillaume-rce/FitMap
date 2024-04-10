@@ -1,10 +1,11 @@
 package com.oniverse.fitmap.modules.tracks;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class TrackList {
+public class TrackList implements Serializable {
     private static TrackList instance;
 
     private final ArrayList<Track> tracks;

@@ -1,12 +1,16 @@
 package com.oniverse.fitmap.modules;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import com.oniverse.fitmap.R;
+import com.oniverse.fitmap.TestActivity;
 import com.oniverse.fitmap.modules.gpxparser.Gpx;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
+import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 
 import org.osmdroid.api.IMapController;
@@ -210,16 +214,20 @@ public class MapRenderer {
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
     }
 
-    public void drawPointWithGpxLoader(TrackPoint trackPoint, String title) {
+    public void drawPointWithGpxLoader(TrackPoint trackPoint, String title, Context context) {
         GeoPoint startPoint = new GeoPoint(trackPoint.getLatitude(), trackPoint.getLongitude());
         Marker marker = this.addMarker(startPoint,  title, context.getDrawable(R.drawable.icon_location),
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
         marker.setOnMarkerClickListener((marker1, mapView) -> {
             TrackList trackList = TrackList.getInstance();
-            Gpx gpx = trackList.getTrack(title).getGpxTrack().getGpx();
-            this.clear();
-            this.setGpx(gpx);
+            Track track = trackList.getTrack(title);
+
+            Intent intent = new Intent(context, TestActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("track", track);
+            intent.putExtras(bundle);
+
             return true;
         });
     }

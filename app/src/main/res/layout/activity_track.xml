@@ -15,7 +15,15 @@
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9" />
+            android:layout_weight="7" />
+
+        <LinearLayout
+            android:id="@+id/track_info"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="horizontal" />
+
     </LinearLayout>
 
 </RelativeLayout>
