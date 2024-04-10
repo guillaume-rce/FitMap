@@ -4,7 +4,9 @@ import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.gpxparser.Gpx;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 
-public class Track {
+import java.io.Serializable;
+
+public class Track implements Serializable {
     public long id;
     public String name;
     public String created_at;

@@ -12,7 +12,7 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
-        <include layout="@layout/banner"
+        <include layout="@navigation/banner"
             android:id="@+id/main_banner"
             android:layout_width="match_parent"
             android:layout_height="0dp"
