@@ -4,45 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main_conversationlayout"
     tools:context=".ChatActivity">
 
-    <include layout="@navigation/chat_profile_banner"
-        android:id="@+id/profil_banner"
+    <include layout="@layout/conversation_banner"
+        android:id="@+id/conversatiobanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/conversationlistView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/profil_banner"
-        android:layout_above="@+id/layout_send_message"
+        android:layout_below="@id/conversatiobanner"
+        android:layout_above="@+id/bottom_navigation"
         android:clipToPadding="false"
         android:padding="16dp"
         android:scrollbars="vertical" />
 
-    <LinearLayout
-        android:id="@+id/layout_send_message"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <EditText
-            android:id="@+id/editText_message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Tapez un message" />
-
-        <ImageButton
-            android:id="@+id/button_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_send" />
-
-    </LinearLayout>
+        app:menu="@menu/nav_bar_menu"
+        app:itemIconTint="#044D00"
+        app:itemBackground="@drawable/item_ripple" />
 
 </RelativeLayout>
