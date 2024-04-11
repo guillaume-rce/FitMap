@@ -11,9 +11,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.SigninActivity;
+import com.oniverse.fitmap.modules.chat.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -67,6 +72,16 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        TextView alreadyHaveAccount = findViewById(R.id.signUpTextView);
+
+        alreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this,SigninActivity.class));
+                finish();
+            }
+        });
     }
 
     private void signUp(String email, String password, String name, String firstName) {
@@ -75,13 +90,35 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign up success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
-                        // Vous pouvez rediriger l'utilisateur vers l'activité principale ici
-                        Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
-                        startActivity(intent);
-                        finish();                     } else {
+                        if (user != null) {
+                            String userId = user.getUid();
+                            // Créer un objet utilisateur avec les informations supplémentaires
+                            User newUser = new User(name, firstName, email);
+                            // Enregistrer l'utilisateur dans la base de données Realtime Database
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                            mDatabase.child("Users").child(userId).setValue(newUser)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // Redirection vers l'activité principale
+                                            Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Gérer les erreurs
+                                            Toast.makeText(RegisterActivity.this, "Erreur lors de l'enregistrement des informations utilisateur", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    } else {
                         // If sign up fails, display a message to the user.
                         Toast.makeText(RegisterActivity.this, "Échec de l'inscription", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 }

@@ -1,46 +1,21 @@
 package com.oniverse.fitmap.modules.chat;
 
 public class Chat {
-    private String userId;
-    private String username;
-    private String lastMessage;
+    private String currentUserId;
+    private String userIdDestination;
+    // Ajoutez d'autres champs si nécessaire
 
-    public Chat() {
-        // Constructeur vide requis pour Firebase
+    public Chat(String currentUserId, String userId2) {
+        this.currentUserId = currentUserId;
+        this.userIdDestination = userId2;
     }
 
-    public Chat(String userId, String username, String lastMessage) {
-        this.userId = userId;
-        this.username = username;
-        this.lastMessage = lastMessage;
-    }
-    public Chat(String userId) {
-        this.userId = userId;
-    }
-
-    // Getters et setters
+    // definir les Getters et setters
     public String getUserId() {
-
-        return userId;
+        return this.currentUserId;
+    }
+    public String getUserIdDestinateur() {
+        return currentUserId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getLastMessage() {
-        return lastMessage;
-    }
-
-    public void setLastMessage(String lastMessage) {
-        this.lastMessage = lastMessage;
-    }
 }
