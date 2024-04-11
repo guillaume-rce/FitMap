@@ -1,5 +1,6 @@
 package com.oniverse.fitmap.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.oniverse.fitmap.ExploreActivity;
@@ -49,33 +51,47 @@ public class TrackInfo extends Fragment {
         return fragment;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button back = view.findViewById(R.id.back_button);
+        ImageButton back = view.findViewById(R.id.back_button);
         back.setOnClickListener(this::back);
 
         if (getArguments() != null) {
             track = getArguments().getString(ARG_PARAM1);
             Track t = TrackList.getInstance().getTrack(Long.parseLong(track));
 
+            // ---- Add the track name ----
             TextView trackName = view.findViewById(R.id.track_name);
             trackName.setText(t.name);
 
+            // ---- Add the track description ----
             TextView trackDesc = view.findViewById(R.id.track_description);
             trackDesc.setText(t.activity.i18n);
 
+            // ---- Add the track duration ----
             TextView trackDuration = view.findViewById(R.id.track_duration);
             Duration duration = Utils.getGpxDeltaTime(t.getGpxTrack().getGpx());
-            trackDuration.setText(duration.toString());
+            String formattedDuration = "";
+            if (duration != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                long hours = duration.toHours();
+                long minutes = duration.toMinutes() % 60;
+                long seconds = duration.getSeconds() % 60;
+                formattedDuration = String.format("%02dH %02dMin %02dSec", hours, minutes, seconds);
+            }
+            trackDuration.setText(formattedDuration);
 
+            // ---- Add the track length ----
             TextView trackLength = view.findViewById(R.id.track_length);
-            trackLength.setText(String.valueOf(t.length));
+            trackLength.setText(Utils.getFormattedLength(t.length));
 
+            // ---- Add the track elevation ----
             List<PointValue> points = Utils.getGpxElevationPoints(t.getGpxTrack().getGpx());
 
             Line line = new Line(points).setColor(Color.BLUE);
+            line.setFilled(true);
             line.setHasPoints(false);
             List<Line> lines = new ArrayList<Line>();
             lines.add(line);

@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadTracks() {
         total_page = 10;
+        /*
+        If you want to load all tracks, you can use the following code:
+        total_page = TrackList.getInstance().getApiMetaData().totalPage;
+        But be careful, it will download 10000 tracks (1000 pages) so it will take a lot of time.
+         */
         for (int i = 1; i <= total_page; i++) {
             ApiClient.findTracks(i, true, this, () -> {
                 setProgressBarValue();

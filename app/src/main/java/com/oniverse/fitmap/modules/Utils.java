@@ -111,4 +111,9 @@ public class Utils {
         }
         return distance;
     }
+
+    public static String getFormattedLength(double length) {
+        length = length / 1000;
+        return String.format("%.0fkm %.0fm", length, length % 1 * 1000);
+    }
 }
