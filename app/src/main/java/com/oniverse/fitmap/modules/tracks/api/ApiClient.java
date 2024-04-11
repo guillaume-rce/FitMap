@@ -48,11 +48,14 @@ public class ApiClient {
         service.getTracks(page).enqueue(new Callback<TracksResponse>() {
             @Override
             public void onResponse(@NonNull Call<TracksResponse> call, @NonNull Response<TracksResponse> response) {
-                System.out.println("Response: " + response.code());
                 if (response.isSuccessful()) {
                     TracksResponse routeResponse = response.body();
                     if (routeResponse != null) {
                         TrackList.getInstance().addTracks(routeResponse.data);
+
+                        for (Track track : routeResponse.data) {
+                            findMoreInfo(track);
+                        }
 
                         if (downloadGpx) {
                             for (Track track : routeResponse.data) {
@@ -73,6 +76,44 @@ public class ApiClient {
 
             @Override
             public void onFailure(@NonNull Call<TracksResponse> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public static void findMoreInfo(Track track) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
+                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
+                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        OpenRunnerService service = retrofit.create(OpenRunnerService.class);
+
+        service.getTrack(track.id).enqueue(new Callback<TrackResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<TrackResponse> call, @NonNull Response<TrackResponse> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Found more info for track " + track.id);
+                    TrackResponse trackResponse = response.body();
+                    if (trackResponse != null && trackResponse.data.id == track.id) {
+                        System.out.println(trackResponse.data.difficulty);
+                        track.difficulty = trackResponse.data.difficulty;
+                        // add more info here if needed
+                    }
+                    System.gc();
+                    Runtime.getRuntime().gc();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TrackResponse> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });

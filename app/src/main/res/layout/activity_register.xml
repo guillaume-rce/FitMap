@@ -15,7 +15,7 @@
         android:layout_height="167dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
-        android:src="@drawable/profile" />
+        android:src="@drawable/ic_profile" />
 
     <EditText
         android:id="@+id/nameEditText"

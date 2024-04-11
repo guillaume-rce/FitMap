@@ -19,7 +19,7 @@
             android:layout_width="200dp"
             android:layout_height="216dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/profile" />
+            android:src="@drawable/ic_profile" />
 
         <EditText
             android:id="@+id/emailEditText"
