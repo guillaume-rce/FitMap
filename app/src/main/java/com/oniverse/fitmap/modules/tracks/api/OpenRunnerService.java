@@ -10,6 +10,9 @@ public interface OpenRunnerService {
     @GET("routes")
     Call<TracksResponse> getTracks(@Query("page") int page);
 
+    @GET("routes/{id}")
+    Call<TrackResponse> getTrack(@Path("id") long trackId);
+
     @GET("routes/{id}/export/gpx-track")
     Call<ResponseBody> downloadGpxFile(@Path("id") long trackId);
 }

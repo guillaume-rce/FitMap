@@ -223,6 +223,9 @@ public class MapRenderer {
             TrackList trackList = TrackList.getInstance();
             Track track = trackList.getTrack(title);
 
+            System.gc();
+            Runtime.getRuntime().gc();
+
             Intent intent = new Intent(context, TrackActivity.class);
             Bundle bundle = new Bundle();
             bundle.putLong("track_id", track.id);

@@ -1,7 +1,12 @@
 package com.oniverse.fitmap.modules;
 
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 
+import com.oniverse.fitmap.R;
 import com.oniverse.fitmap.modules.gpxparser.Gpx;
 import com.oniverse.fitmap.modules.gpxparser.Track;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
@@ -115,5 +120,26 @@ public class Utils {
     public static String getFormattedLength(double length) {
         length = length / 1000;
         return String.format("%.0fkm %.0fm", length, length % 1 * 1000);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public static Drawable getDifficultyIcon(String difficulty, Context context) {
+        if (difficulty == null)
+            return context.getDrawable(R.drawable.ic_difficulty_unknow);
+
+        Drawable icon = null;
+        switch (difficulty) {
+            case "low":
+                icon = context.getDrawable(R.drawable.ic_difficulty_easy);
+                break;
+            case "medium":
+                icon = context.getDrawable(R.drawable.ic_difficulty_medium);
+                break;
+            case "high":
+                icon = context.getDrawable(R.drawable.ic_difficulty_high);
+                break;
+
+        }
+        return icon;
     }
 }

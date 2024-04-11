@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Track {
     public long id;
     public String name;
+    public String difficulty;
     public String created_at;
     public Activity activity;
     public String label_color;
