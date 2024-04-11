@@ -58,7 +58,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/se_connecter"
             android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button"
+            android:backgroundTint="#05364f"
             android:padding="12dp" />
 
         <TextView
