@@ -27,7 +27,7 @@ public class ChatListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private List<Chat> chats;
-    private ChatListAdapter chatListAdapter; // Correction du nom
+    private ChatListAdapter chatListAdapter;
     private DatabaseReference mDatabase;
 
     @Override
@@ -39,7 +39,7 @@ public class ChatListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         chats = new ArrayList<>();
-        chatListAdapter = new ChatListAdapter(chats); // Correction du nom
+        chatListAdapter = new ChatListAdapter(chats);
         recyclerView.setAdapter(chatListAdapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -47,7 +47,8 @@ public class ChatListActivity extends AppCompatActivity {
         if (currentUser != null) {
             loadChats(currentUser.getUid());
         } else {
-            // Gérer le cas où l'utilisateur n'est pas connecté
+            // Rediriger vers la page de connexion
+            startActivity(new Intent(ChatListActivity.this, SigninActivity.class));
         }
 
         // ---------------- Add navbar ----------------

@@ -17,6 +17,7 @@ public class Chat {
 
     // Getters et setters
     public String getUserId() {
+
         return userId;
     }
 
