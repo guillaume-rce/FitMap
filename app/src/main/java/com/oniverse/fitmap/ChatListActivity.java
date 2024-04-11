@@ -53,6 +53,7 @@ public class ChatListActivity extends AppCompatActivity {
 
         // ---------------- Add navbar ----------------
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setSelectedItemId(R.id.navigation_chat);
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
