@@ -19,6 +19,10 @@ import org.osmdroid.views.MapView;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.databinding.ActivityExploreBinding;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
@@ -31,7 +35,7 @@ import java.util.Arrays;
 public class ExploreActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private ActivityExploreBinding binding_explore;
-
+    private DatabaseReference mDatabase;
     private MapRenderer map;
 
     @Override
@@ -39,7 +43,8 @@ public class ExploreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding_explore = ActivityExploreBinding.inflate(getLayoutInflater());
         setContentView(binding_explore.getRoot());
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
@@ -75,7 +80,13 @@ public class ExploreActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.navigation_explore) {
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
-                    startActivity(new Intent(ExploreActivity.this, SigninActivity.class));
+                    if (currentUser != null) {
+                        // rediriger vers la page
+                        startActivity(new Intent(ExploreActivity.this, ChatListActivity.class));
+                    } else {
+                        // Rediriger vers la page de connexion
+                        startActivity(new Intent(ExploreActivity.this, SigninActivity.class));
+                    }
                     return true;
                 } else {
                     return false;

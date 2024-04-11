@@ -15,6 +15,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.databinding.ActivityHomeBinding;
 import com.oniverse.fitmap.fragment.MainAlert;
 import com.oniverse.fitmap.modules.MapRenderer;
@@ -36,12 +40,16 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
 
     private MapRenderer map;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -91,8 +99,13 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(new Intent(HomeActivity.this, ExploreActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
-                    startActivity(new Intent(HomeActivity.this, SigninActivity.class));
-                    return true;
+                    if (currentUser != null) {
+                        // rediriger vers la page
+                        startActivity(new Intent(HomeActivity.this, ChatListActivity.class));
+                    } else {
+                        // Rediriger vers la page de connexion
+                        startActivity(new Intent(HomeActivity.this, SigninActivity.class));
+                    }                    return true;
                 } else {
                     return false;
                 }
