@@ -90,6 +90,7 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(new Intent(HomeActivity.this, ExploreActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
+                    startActivity(new Intent(HomeActivity.this, SigninActivity.class));
                     return true;
                 } else {
                     return false;

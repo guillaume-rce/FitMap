@@ -34,7 +34,7 @@
             android:queryHint="Search"
             android:gravity="start|center"
             android:textStyle="bold"
-            android:textSize="35dp"
+            android:textSize="25dp"
             android:text="Discussion"/>
 
     </LinearLayout>

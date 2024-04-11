@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                         // Sign up success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
                         // Vous pouvez rediriger l'utilisateur vers l'activité principale ici
-                        Intent intent = new Intent(RegisterActivity.this, ChatActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
                         startActivity(intent);
                         finish();                     } else {
                         // If sign up fails, display a message to the user.

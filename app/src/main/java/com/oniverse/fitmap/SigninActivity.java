@@ -53,7 +53,7 @@ public class SigninActivity extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
                         // Vous pouvez rediriger l'utilisateur vers l'activité principale ici
-                        Intent intent = new Intent(SigninActivity.this, ChatActivity.class);
+                        Intent intent = new Intent(SigninActivity.this, ChatListActivity.class);
                         startActivity(intent);
                         finish();                    } else {
                         // If sign in fails, display a message to the user.
