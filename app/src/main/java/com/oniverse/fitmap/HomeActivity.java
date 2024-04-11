@@ -81,6 +81,7 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(alertContainer.getId(), alert).commit();
         // ---------------- Add navbar ----------------
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setSelectedItemId(R.id.navigation_home);
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected( MenuItem item) {

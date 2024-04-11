@@ -26,5 +26,7 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/nav_bar_menu"
         app:itemIconTint="#044D00"
-        app:itemBackground="@drawable/item_ripple" />
+        app:itemBackground="@drawable/item_ripple"
+        app:itemTextColor="#044D00"
+        app:labelVisibilityMode="labeled" />
 </RelativeLayout>
