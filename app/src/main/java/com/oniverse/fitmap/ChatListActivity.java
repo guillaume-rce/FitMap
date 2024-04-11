@@ -91,4 +91,12 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
     }
+
+    // ecrire une fonction qui permet d'ajouter un chat
+    private void addChat(String uid) {
+        Chat chat = new Chat(uid);
+        mDatabase.child("ChatList").child(uid).push().setValue(chat);
+        // rediriger vers la page de chat
+        Intent intent = new Intent(ChatListActivity.this, ChatActivity.class);
+    }
 }
