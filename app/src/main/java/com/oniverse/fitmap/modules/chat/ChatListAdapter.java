@@ -39,8 +39,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Chat chat = chats.get(position);
-        holder.usernameTextView.setText(chat.getUsername());
-        holder.lastMessageTextView.setText(chat.getLastMessage());
+        holder.usernameTextView.setText("userdestination");
+        holder.lastMessageTextView.setText("lastmessage");
 
         // Charger les informations de l'utilisateur
         loadUserInfo(chat.getUserId(), holder);
@@ -79,9 +79,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         mDatabase.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserInfo userInfo = dataSnapshot.getValue(UserInfo.class);
+                User user = dataSnapshot.getValue(User.class);
                 // Mettez à jour l'affichage de l'utilisateur dans l'élément de la liste
-                holder.usernameTextView.setText(userInfo.getUsername()); // Utiliser UserInfo
+                holder.usernameTextView.setText(user.getName());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
