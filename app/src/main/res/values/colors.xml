@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#3F51B5</color> <!-- Exemple de couleur primaire -->
-    <color name="colorGreen">#90EE90</color> <!-- Exemple de couleur primaire -->
-    <color name="colorOfStatusBar">#FF4081</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorGreen">#90EE90</color>
+    <color name="colorOfStatusBar">#003A50</color>
 </resources>
