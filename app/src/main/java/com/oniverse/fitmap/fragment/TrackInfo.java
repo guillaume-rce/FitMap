@@ -1,5 +1,6 @@
 package com.oniverse.fitmap.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -8,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.oniverse.fitmap.ExploreActivity;
 import com.oniverse.fitmap.R;
 import com.oniverse.fitmap.modules.Utils;
 import com.oniverse.fitmap.modules.tracks.Track;
@@ -49,6 +52,10 @@ public class TrackInfo extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Button back = view.findViewById(R.id.back_button);
+        back.setOnClickListener(this::back);
+
         if (getArguments() != null) {
             track = getArguments().getString(ARG_PARAM1);
             Track t = TrackList.getInstance().getTrack(Long.parseLong(track));
@@ -95,5 +102,11 @@ public class TrackInfo extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_track_info, container, false);
+    }
+
+    public void back(View view) {
+        // Go back to the explore activity
+        Intent intent = new Intent(getContext(), ExploreActivity.class);
+        startActivity(intent);
     }
 }
