@@ -57,6 +57,6 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/ic_addconversation"
-        android:contentDescription="@string/logoDesc" />
+        android:contentDescription="Ajouter une nouvelle conversation" />
 
 </LinearLayout>

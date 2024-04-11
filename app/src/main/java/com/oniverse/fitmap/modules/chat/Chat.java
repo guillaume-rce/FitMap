@@ -14,6 +14,9 @@ public class Chat {
         this.username = username;
         this.lastMessage = lastMessage;
     }
+    public Chat(String userId) {
+        this.userId = userId;
+    }
 
     // Getters et setters
     public String getUserId() {
