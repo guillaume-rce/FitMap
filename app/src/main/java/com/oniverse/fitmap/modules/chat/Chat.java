@@ -19,14 +19,24 @@ public class Chat {
     public String getUserId() {
         return userId;
     }
-    
-    // get username
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getUsername() {
         return username;
     }
 
-    // get last message
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getLastMessage() {
         return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 }

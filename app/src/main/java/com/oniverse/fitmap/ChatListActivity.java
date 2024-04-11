@@ -1,14 +1,23 @@
 package com.oniverse.fitmap;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.oniverse.fitmap.modules.chat.Chat;
-import com.oniverse.fitmap.modules.chat.ChatAdapter;
+import com.oniverse.fitmap.modules.chat.ChatListAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
@@ -18,7 +27,7 @@ public class ChatListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private List<Chat> chats;
-    private ChatAdapter chatAdapter;
+    private ChatListAdapter chatListAdapter; // Correction du nom
     private DatabaseReference mDatabase;
 
     @Override
@@ -30,15 +39,54 @@ public class ChatListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         chats = new ArrayList<>();
-        chatAdapter = new ChatAdapter(chats);
-        recyclerView.setAdapter(chatAdapter);
+        chatListAdapter = new ChatListAdapter(chats); // Correction du nom
+        recyclerView.setAdapter(chatListAdapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        loadChats();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            loadChats(currentUser.getUid());
+        } else {
+            // Gérer le cas où l'utilisateur n'est pas connecté
+        }
+
+        // ---------------- Add navbar ----------------
+        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.navigation_home) {
+                    startActivity(new Intent(ChatListActivity.this, HomeActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.navigation_explore) {
+                    startActivity(new Intent(ChatListActivity.this, ExploreActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.navigation_chat) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
-    private void loadChats() {
-        // Récupérez les chats depuis Firebase ici
-        // Par exemple, vous pouvez récupérer les chats en fonction de l'ID de l'utilisateur actuel
+
+    private void loadChats(String uid) {
+        mDatabase.child("ChatList").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                chats.clear();
+                for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
+                    Chat chat = chatSnapshot.getValue(Chat.class);
+                    chats.add(chat);
+                }
+                chatListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Gérer les erreurs
+            }
+        });
     }
 }
