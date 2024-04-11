@@ -10,6 +10,6 @@
         android:title="@string/nav_explore" />
     <item
         android:id="@+id/navigation_chat"
-        android:icon="@drawable/icon_chat"
+        android:icon="@drawable/ic_chat"
         android:title="@string/chat" />
 </menu>

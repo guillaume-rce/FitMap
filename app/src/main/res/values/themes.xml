@@ -15,7 +15,7 @@
         <!--we are setting our primary color to green-->
         <item name="colorPrimary">@color/colorGreen</item>
         <!--we are setting our primary color dark to green-->
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorOfStatusBar</item>
         <!--we are setting our edittext color to black-->
         <item name="android:editTextColor">@color/black</item>
         <!--we are setting our window background color to white-->

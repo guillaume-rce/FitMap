@@ -31,6 +31,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class MapRenderer {
     private final MapView map;
@@ -225,6 +226,12 @@ public class MapRenderer {
 
             System.gc();
             Runtime.getRuntime().gc();
+
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
             Intent intent = new Intent(context, TrackActivity.class);
             Bundle bundle = new Bundle();

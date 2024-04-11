@@ -117,14 +117,14 @@ public class TrackInfo extends Fragment {
             data.setLines(lines);
 
             Axis axisX = new Axis();
-            axisX.setHasLines(true); // Afficher les lignes de l'axe des x
-            axisX.setHasSeparationLine(true); // Afficher une ligne de séparation pour l'axe des x
-            axisX.setInside(false); // Positionner l'axe des x à l'extérieur du graphique
+            axisX.setHasLines(true);
+            axisX.setHasSeparationLine(true);
+            axisX.setInside(false);
 
             Axis axisY = new Axis();
-            axisY.setHasLines(true); // Afficher les lignes de l'axe des y
-            axisY.setHasSeparationLine(true); // Afficher une ligne de séparation pour l'axe des y
-            axisY.setInside(false); // Positionner l'axe des y à l'extérieur du graphique
+            axisY.setHasLines(true);
+            axisY.setHasSeparationLine(true);
+            axisY.setInside(false);
 
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
