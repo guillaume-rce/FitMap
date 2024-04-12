@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button signUpButton;
     private TextView signInTextView;
     private FirebaseAuth mAuth;
-
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         signInTextView = findViewById(R.id.signUpTextView);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,38 +87,30 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void signUp(String email, String password, String name, String firstName) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign up success, update UI with the signed-in user's information
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            String userId = user.getUid();
-                            // Créer un objet utilisateur avec les informations supplémentaires
-                            User newUser = new User(name, firstName, email);
-                            // Enregistrer l'utilisateur dans la base de données Realtime Database
-                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                            mDatabase.child("Users").child(userId).setValue(newUser)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            // Redirection vers l'activité principale
-                                            Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // Gérer les erreurs
-                                            Toast.makeText(RegisterActivity.this, "Erreur lors de l'enregistrement des informations utilisateur", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+                .addOnSuccessListener(authResult -> {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user != null) {
+                        saveUserToDatabase(user, name, firstName);
                     } else {
-                        // If sign up fails, display a message to the user.
-                        Toast.makeText(RegisterActivity.this, "Échec de l'inscription", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "L'utilisateur est nul", Toast.LENGTH_SHORT).show();
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(RegisterActivity.this, "Erreur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void saveUserToDatabase(FirebaseUser user, String name, String firstName) {
+        User newUser = new User(user.getUid(), name, firstName, user.getEmail());
+        mDatabase.child(user.getEmail()).setValue(newUser)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, ChatActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(RegisterActivity.this, "Erreur lors de l'inscription de l'utilisateur dans la base de données: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

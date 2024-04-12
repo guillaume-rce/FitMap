@@ -1,45 +1,49 @@
 package com.oniverse.fitmap.modules.chat;
 
-public class User {
-    private String id;
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String name;
+    private String firstName;
     private String email;
+    private String id;
 
-    // Constructeur
-    public User(String id, String name, String email) {
-        this.id = id;
+    public User() {
+        // Constructeur vide requis pour Firebase
+    }
+
+    public User(String id, String name, String firstName, String email) {
         this.name = name;
+        this.firstName = firstName;
         this.email = email;
+        this.id = id;
     }
 
-    // Getters
-    public String getId() {
-
-        return id;
-    }
-
+    // Getters et setters
     public String getName() {
-
         return name;
     }
 
-    public String getEmail() {
-
-        return email;
-    }
-
-    // Setters (facultatif, selon vos besoins)
-    public void setId(String id) {
-
-        this.id = id;
-    }
-
     public void setName(String name) {
-
         this.name = name;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getId() {
+        return id;
     }
 }
