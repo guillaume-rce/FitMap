@@ -1,85 +1,73 @@
 package com.oniverse.fitmap.modules.chat;
 
-import java.util.Objects;
-
 public class Message {
-    private String senderId;
-    private String content;
-    private boolean isSent;
-    private long timestamp;
-    private String userId;
+    String message;
+    String sender;
+    String receiver;
+    String type;
+    String timestamp;
+    boolean dilihat;
+    boolean isSent;
 
-    // Constructeur vide requis pour Firebase
-    public Message() {
+    public String getMessage() {
+        return message;
     }
 
-    // Constructeur avec tous les champs
-    public Message(String senderId, String content, boolean isSent, long timestamp, String userId) {
-        this.senderId = senderId;
-        this.content = content;
-        this.isSent = isSent;
-        this.timestamp = timestamp;
-        this.userId = userId;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-
-    // Getters et setters pour tous les champs
-
-    public String getSenderId() {
-        return senderId;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
-    public String getContent() {
-        return content;
+    public String getSender() {
+        return sender;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
-    public boolean isSent() {
-        return isSent;
-    }
-
-    public void setSent(boolean sent) {
-        isSent = sent;
-    }
-
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
-    public String getUserId() {
-        return userId;
+    public boolean isDilihat() {
+        return dilihat;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setDilihat(boolean dilihat) {
+        this.dilihat = dilihat;
     }
 
-    // Implémentation de equals et hashCode
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
-        return timestamp == message.timestamp &&
-                isSent == message.isSent &&
-                Objects.equals(senderId, message.senderId) &&
-                Objects.equals(content, message.content) &&
-                Objects.equals(userId, message.userId);
+    public Message() {
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(senderId, content, isSent, timestamp, userId);
+
+    public String getType() {
+        return type;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Message(String message, String receiver, String sender, String type, String timestamp, boolean dilihat) {
+        this.message = message;
+        this.receiver = receiver;
+        this.sender = sender;
+        this.type = type;
+        this.timestamp = timestamp;
+        this.dilihat = dilihat;
+    }
+
 }

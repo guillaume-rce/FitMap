@@ -56,6 +56,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation ("com.google.firebase:firebase-firestore:23.0.3")
+    implementation ("com.google.firebase:firebase-storage:20.0.0")
 
 
 }
