@@ -1,36 +1,35 @@
 package com.oniverse.fitmap.modules.chat;
 
 public class Message {
-    String message;
-    String sender;
-    String receiver;
-    String type;
-    String timestamp;
-    boolean dilihat;
-    boolean isSent;
+    private String message;
+    private String timestamp;
+    private String senderId;
+    private boolean isSent;
 
+    public Message() {
+        // Constructeur vide nécessaire pour Firebase
+    }
+
+    public Message(String message, String timestamp, String senderId) {
+        this.message = message;
+        this.timestamp = timestamp;
+        this.senderId = senderId;
+    }
+
+    public Message(String messageText, String format, String senderId, boolean b) {
+        this.message = messageText;
+        this.timestamp = format;
+        this.senderId = senderId;
+        this.isSent = b;
+    }
+
+    // Getters et setters
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
     }
 
     public String getTimestamp() {
@@ -41,33 +40,17 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    public boolean isDilihat() {
-        return dilihat;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setDilihat(boolean dilihat) {
-        this.dilihat = dilihat;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
-
-    public Message() {
+    public boolean isSent() {
+        return isSent;
     }
-
-
-    public String getType() {
-        return type;
+    public void setSent(boolean sent) {
+        isSent = sent;
     }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Message(String message, String receiver, String sender, String type, String timestamp, boolean dilihat) {
-        this.message = message;
-        this.receiver = receiver;
-        this.sender = sender;
-        this.type = type;
-        this.timestamp = timestamp;
-        this.dilihat = dilihat;
-    }
-
 }
