@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/chatrecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/profil_banner"
@@ -30,6 +30,11 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
+        <ImageButton
+            android:id="@+id/attachbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_attach_file" />
         <EditText
             android:id="@+id/editText_message"
             android:layout_width="0dp"

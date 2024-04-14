@@ -15,6 +15,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.databinding.ActivityHomeBinding;
 import com.oniverse.fitmap.fragment.MainAlert;
 import com.oniverse.fitmap.modules.MapRenderer;
@@ -31,11 +35,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class HomeActivity extends AppCompatActivity {
-    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-
     private ActivityHomeBinding binding;
 
     private MapRenderer map;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +46,13 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
         setContentView(R.layout.activity_home);
-
-        requestPermissionsIfNecessary(new String[]{
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        });
 
         MapView map_v = findViewById(R.id.map);
         if (map_v == null) {
@@ -91,8 +91,13 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(new Intent(HomeActivity.this, ExploreActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
-                    startActivity(new Intent(HomeActivity.this, SigninActivity.class));
-                    return true;
+                    if (currentUser != null) {
+                        // rediriger vers la page
+                        startActivity(new Intent(HomeActivity.this, ChatListActivity.class));
+                    } else {
+                        // Rediriger vers la page de connexion
+                        startActivity(new Intent(HomeActivity.this, SigninActivity.class));
+                    }                    return true;
                 } else {
                     return false;
                 }
@@ -113,39 +118,4 @@ public class HomeActivity extends AppCompatActivity {
         if (map != null)
             map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        ArrayList<String> permissionsToRequest = new ArrayList<>(
-                Arrays.asList(permissions).subList(0, grantResults.length));
-
-        if (!permissionsToRequest.isEmpty()) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
-    }
-
-    private void requestPermissionsIfNecessary(String[] permissions) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(permission);
-            }
-        }
-
-        if (!permissionsToRequest.isEmpty()) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
-    }
-
 }

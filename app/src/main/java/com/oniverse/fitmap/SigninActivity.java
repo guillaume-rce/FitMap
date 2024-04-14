@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,16 @@ public class SigninActivity extends AppCompatActivity {
                 }
 
                 signIn(email, password);
+            }
+        });
+
+        TextView registertextview = findViewById(R.id.registerTextView);
+
+        registertextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SigninActivity.this,RegisterActivity.class));
+                finish();
             }
         });
     }

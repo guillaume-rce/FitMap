@@ -19,7 +19,7 @@
             android:layout_width="200dp"
             android:layout_height="216dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/profile" />
+            android:src="@drawable/ic_profile" />
 
         <EditText
             android:id="@+id/emailEditText"
@@ -72,7 +72,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/signUpTextView"
+            android:id="@+id/registerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

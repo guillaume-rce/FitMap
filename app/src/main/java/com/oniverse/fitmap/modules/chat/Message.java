@@ -1,29 +1,44 @@
 package com.oniverse.fitmap.modules.chat;
 
-import java.util.Objects;
-
 public class Message {
+    private String message;
+    private String timestamp;
     private String senderId;
-    private String content;
     private boolean isSent;
-    private long timestamp;
-    private String userId;
 
-    // Constructeur vide requis pour Firebase
     public Message() {
+        // Constructeur vide nécessaire pour Firebase
     }
 
-    // Constructeur avec tous les champs
-    public Message(String senderId, String content, boolean isSent, long timestamp, String userId) {
-        this.senderId = senderId;
-        this.content = content;
-        this.isSent = isSent;
+    public Message(String message, String timestamp, String senderId) {
+        this.message = message;
         this.timestamp = timestamp;
-        this.userId = userId;
+        this.senderId = senderId;
     }
 
+    public Message(String messageText, String format, String senderId, boolean b) {
+        this.message = messageText;
+        this.timestamp = format;
+        this.senderId = senderId;
+        this.isSent = b;
+    }
 
-    // Getters et setters pour tous les champs
+    // Getters et setters
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public String getSenderId() {
         return senderId;
@@ -32,54 +47,10 @@ public class Message {
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public boolean isSent() {
         return isSent;
     }
-
     public void setSent(boolean sent) {
         isSent = sent;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    // Implémentation de equals et hashCode
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
-        return timestamp == message.timestamp &&
-                isSent == message.isSent &&
-                Objects.equals(senderId, message.senderId) &&
-                Objects.equals(content, message.content) &&
-                Objects.equals(userId, message.userId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(senderId, content, isSent, timestamp, userId);
     }
 }

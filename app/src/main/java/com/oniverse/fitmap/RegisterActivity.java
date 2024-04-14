@@ -11,9 +11,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.SigninActivity;
+import com.oniverse.fitmap.modules.chat.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -21,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button signUpButton;
     private TextView signInTextView;
     private FirebaseAuth mAuth;
-
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         signInTextView = findViewById(R.id.signUpTextView);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,21 +73,45 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        TextView alreadyHaveAccount = findViewById(R.id.signUpTextView);
+
+        alreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this,SigninActivity.class));
+                finish();
+            }
+        });
     }
 
     private void signUp(String email, String password, String name, String firstName) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign up success, update UI with the signed-in user's information
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        // Vous pouvez rediriger l'utilisateur vers l'activité principale ici
-                        Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
-                        startActivity(intent);
-                        finish();                     } else {
-                        // If sign up fails, display a message to the user.
-                        Toast.makeText(RegisterActivity.this, "Échec de l'inscription", Toast.LENGTH_SHORT).show();
+                .addOnSuccessListener(authResult -> {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user != null) {
+                        saveUserToDatabase(user, name, firstName);
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "L'utilisateur est nul", Toast.LENGTH_SHORT).show();
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(RegisterActivity.this, "Erreur: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
+    private void saveUserToDatabase(FirebaseUser user, String name, String firstName) {
+        User newUser = new User(user.getUid(), name, firstName, user.getEmail());
+        mDatabase.child(user.getEmail()).setValue(newUser)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, ChatActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(RegisterActivity.this, "Erreur lors de l'inscription de l'utilisateur dans la base de données: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
 }
