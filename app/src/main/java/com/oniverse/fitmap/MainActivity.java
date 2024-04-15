@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadTracks() {
         if (!tracksLoaded) {
             tracksLoaded = true;
-            total_page = 4;
+            total_page = 10;
             /*
             If you want to load all tracks, you can use the following code:
             total_page = TrackList.getInstance().getApiMetaData().totalPage;
@@ -92,11 +92,18 @@ public class MainActivity extends AppCompatActivity {
             for (Track track : tracks) {
                 if (track == null)
                     continue;
-                ApiClient.downloadGpxFile(track, getApplicationContext(), true, () -> {
-                    updateProgress();
-                    switchToHomeActivity();
-                    return null;
-                });
+                try {
+                    ApiClient.downloadGpxFile(track, getApplicationContext(), true, () -> {
+                        updateProgress();
+                        switchToHomeActivity();
+                        return null;
+                    });
+                } catch (Exception e) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setTitle("Error...");
+                    builder.setMessage("An error occurred while loading the track details.\nPlease apologize us and try again later.");
+                    builder.setCancelable(false);
+                }
             }
         }
 
@@ -110,18 +117,11 @@ public class MainActivity extends AppCompatActivity {
             for (Track track : tracks) {
                 if (track == null)
                     continue;
-                try {
-                    ApiClient.findMoreInfo(track, () -> {
-                        updateProgress();
-                        switchToHomeActivity();
-                        return null;
-                    });
-                } catch (Exception e) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setTitle("Error...");
-                    builder.setMessage("An error occurred while loading the track details.\nPlease apologize us and try again later.");
-                    builder.setCancelable(false);
-                }
+                ApiClient.findMoreInfo(track, () -> {
+                    updateProgress();
+                    switchToHomeActivity();
+                    return null;
+                });
             }
         }
     }
