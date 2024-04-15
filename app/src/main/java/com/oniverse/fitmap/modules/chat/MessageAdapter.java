@@ -52,6 +52,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
     @Override
     public int getItemViewType(int position) {
+
         return messages.get(position).isSent() ? 0 : 1;
     }
 

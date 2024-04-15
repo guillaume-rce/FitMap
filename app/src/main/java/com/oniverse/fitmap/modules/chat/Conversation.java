@@ -11,6 +11,7 @@ public class Conversation {
 
     // Getters et setters
     public String getUserId() {
+
         return userId;
     }
 
