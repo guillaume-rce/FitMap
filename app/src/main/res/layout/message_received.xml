@@ -2,17 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:id="@+id/msglayout"
     android:gravity="start"
     android:padding="8dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start">
+
+        <TextView
+            android:id="@+id/textView_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/message_received_background"
+            android:padding="10dp"
+            android:text="Message envoyé"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/textView_message"
+        android:id="@+id/textView_seen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Message"
-        android:textColor="@android:color/black"
-        android:background="@drawable/message_received_background"
-        android:padding="10dp" />
+        android:gravity="end"
+        android:text="Delivered"
+        android:textAlignment="textEnd"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/textView_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="02/01/1990 06:19PM"
+        android:textSize="12sp" />
 
 </LinearLayout>

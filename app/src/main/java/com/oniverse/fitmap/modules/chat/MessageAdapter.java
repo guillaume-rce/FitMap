@@ -23,37 +23,37 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
-        if (viewType == 0) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_sent, parent, false);
-        } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_received, parent, false);
-        }
+        int layoutId = viewType == 0 ? R.layout.message_sent : R.layout.message_sent;
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return new MessageViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messages.get(position);
-        holder.messageTextView.setText(message.getContent());
+        holder.textViewMessage.setText(message.getMessage());
+        holder.textViewTimestamp.setText(message.getTimestamp());
+        // Aucune logique supplémentaire nécessaire ici, car l'apparence est gérée par le layout
     }
+
 
     @Override
     public int getItemCount() {
         return messages.size();
     }
 
+    public class MessageViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewMessage, textViewTimestamp;
+
+        public MessageViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewMessage = itemView.findViewById(R.id.textView_message);
+            textViewTimestamp = itemView.findViewById(R.id.textView_timestamp);
+        }
+    }
     @Override
     public int getItemViewType(int position) {
         return messages.get(position).isSent() ? 0 : 1;
     }
 
-    public static class MessageViewHolder extends RecyclerView.ViewHolder {
-        TextView messageTextView;
 
-        public MessageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            messageTextView = itemView.findViewById(R.id.textView_message);
-        }
-    }
 }

@@ -38,7 +38,7 @@
         android:padding="15dp" >
 
         <TextView
-            android:id="@+id/searchView"
+            android:id="@+id/usernameView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:iconifiedByDefault="false"
