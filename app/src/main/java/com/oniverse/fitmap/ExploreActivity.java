@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.databinding.ActivityExploreBinding;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
+import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 import com.oniverse.fitmap.modules.tracks.Track;
 
@@ -65,7 +66,10 @@ public class ExploreActivity extends AppCompatActivity {
         map.addCompassOverlay();
 
         for (Track track: TrackList.getInstance().getTracks()) {
-            map.drawPointWithGpxLoader(track.start_location.point, track.name, this);
+            TrackPoint start = track.start_location.point;
+            if (start != null) {
+                map.drawPointWithGpxLoader(start, track.name, this);
+            }
         }
 
         // ---------------- Add navbar ----------------

@@ -41,18 +41,8 @@
             >
 
             <ProgressBar
-                android:id="@+id/download_bar"
+                android:id="@+id/progress_bar"
                 style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:progress="0"
-                android:max="100"
-                />
-
-            <ProgressBar
-                android:id="@+id/load_bar"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:progress="0"

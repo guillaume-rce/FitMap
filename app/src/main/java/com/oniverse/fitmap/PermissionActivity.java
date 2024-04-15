@@ -38,6 +38,11 @@ public class PermissionActivity extends AppCompatActivity {
         System.out.println("----------- Permission done -----------");
         requestPermissionsIfNecessary(permissions);
 
+        while (true) {
+            if (checkPermissions(permissions)) {
+                break;
+            }
+        }
         switchToMainActivity();
     }
 
@@ -79,5 +84,15 @@ public class PermissionActivity extends AppCompatActivity {
                     permissionsToRequest.toArray(new String[0]),
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
+    }
+
+    private boolean checkPermissions(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 }

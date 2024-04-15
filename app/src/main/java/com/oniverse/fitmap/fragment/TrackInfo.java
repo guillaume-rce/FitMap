@@ -72,7 +72,6 @@ public class TrackInfo extends Fragment {
 
             // ---- Add the track difficulty ----
             TextView trackDifficulty = view.findViewById(R.id.track_difficulty);
-            System.out.println("DIF:"+t.difficulty+".");
             if (t.difficulty == null || t.difficulty.equals("null") || t.difficulty.isEmpty()) {
                 System.out.println("disable");
                 trackDifficulty.setEnabled(false);
