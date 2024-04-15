@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private int total_page;
-    private int progress = 0;
+    private int progress = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadTracks() {
-        total_page = 2;
+        total_page = 0;
         /*
         If you want to load all tracks, you can use the following code:
         total_page = TrackList.getInstance().getApiMetaData().totalPage;
