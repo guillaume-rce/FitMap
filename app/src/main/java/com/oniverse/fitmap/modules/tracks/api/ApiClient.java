@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class ApiClient {
     private static final String BASE_URL = "https://api.openrunner.com/api/v2/";
-    private static final int timeout = 120;
+    private static final int timeout = 30;
 
     public static void findTracks(int page, Callable<Void> callback) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
