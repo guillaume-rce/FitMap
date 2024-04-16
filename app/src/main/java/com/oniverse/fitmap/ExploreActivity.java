@@ -63,8 +63,10 @@ public class ExploreActivity extends AppCompatActivity {
         map.setZoom(9.5F, new GeoPoint(48.8583, 2.2944));
         map.addMapScaleBarOverlay();
         map.addRotationGestureOverlay();
-        map.addMyLocationOverlay();
         map.addCompassOverlay();
+
+        Intent serviceIntent = new Intent(this, Localisation.class);
+        startService(serviceIntent);
 
         for (Track track: TrackList.getInstance().getTracks()) {
             TrackPoint start = track.start_location.point;
