@@ -1,68 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/banner"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center|start"
-    android:orientation="horizontal"
-    >
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:contentPadding="3dp">
 
-    <ImageButton
-        android:id="@+id/returnButton"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:backgroundTint="#00FFFFFF"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        app:srcCompat="@drawable/ic_profile"
-        android:contentDescription="@string/logoDesc" />
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:padding="15dp" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/chatlistprofileimage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_profile"
+            tools:ignore="MissingClass" />
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/onlinestatus"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/chatlistusernameView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/chatlistprofileimage"
+            android:layout_toRightOf="@id/chatlistprofileimage"
+            android:text="His Name"
+            android:textStyle="bold"
+            android:textSize="20dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="340dp"
-                android:orientation="horizontal">
+        <TextView
+            android:id="@+id/chatlistlastmessge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chatlistusernameView"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/chatlistprofileimage"
+            android:layout_toRightOf="@id/chatlistprofileimage"
+            android:maxLines="2"
+            android:layout_marginTop="10dp"
+            android:text="Last Message"
+            />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:padding="15dp"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:text="Username" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:padding="15dp"
-                    android:text=" Last conversation message" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,10 +1,10 @@
 package com.oniverse.fitmap;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ProgressBar;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.gpxparser.Gpx;
@@ -14,13 +14,12 @@ import com.oniverse.fitmap.modules.tracks.TrackList;
 import com.oniverse.fitmap.modules.tracks.api.ApiClient;
 
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private int total_page;
-    private int progress = 1;
+    private int progress = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

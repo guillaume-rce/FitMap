@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/msglayout"
+    android:id="@+id/msglayout_received"
     android:gravity="start"
     android:padding="8dp">
 
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/message_received_background"
             android:padding="10dp"
-            android:text="Message envoyé"
+            android:text="Message recu"
             android:textColor="@android:color/black" />
     </LinearLayout>
 
@@ -39,5 +39,16 @@
         android:gravity="end"
         android:text="02/01/1990 06:19PM"
         android:textSize="12sp" />
+    <ImageView
+        android:id="@+id/imageView_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <VideoView
+        android:id="@+id/videoView_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
 </LinearLayout>

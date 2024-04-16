@@ -3,12 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/msglayout"
     android:gravity="end"
     android:padding="8dp">
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -40,5 +38,16 @@
         android:gravity="end"
         android:text="02/01/1990 06:19PM"
         android:textSize="12sp" />
+    <ImageView
+        android:id="@+id/imageView_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <VideoView
+        android:id="@+id/videoView_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
 </LinearLayout>

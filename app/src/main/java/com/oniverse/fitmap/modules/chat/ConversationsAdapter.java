@@ -8,15 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.oniverse.fitmap.R;
 
 import java.util.List;
 
-public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapter.ConversationViewHolder> {
+public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdapter.ConversationViewHolder> {
 
     private List<Conversation> conversations;
 
-    public ConversationAdapter(List<Conversation> conversations) {
+    public ConversationsAdapter(List<Conversation> conversations) {
         this.conversations = conversations;
     }
 
@@ -30,8 +31,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     @Override
     public void onBindViewHolder(@NonNull ConversationViewHolder holder, int position) {
         Conversation conversation = conversations.get(position);
-        holder.textViewUsername.setText(conversation.getUserId());
-        holder.textViewLastMessage.setText(conversation.getLastMessage());
+
+        holder.itemUsername.setText("username");
+        holder.lastMessage.setText(conversation.getLastMessage());
     }
 
     @Override
@@ -40,12 +42,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     }
 
     public static class ConversationViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewUsername, textViewLastMessage;
+        TextView itemUsername;
+        TextView lastMessage;
 
         public ConversationViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewUsername = itemView.findViewById(R.id.textView);
-            textViewLastMessage = itemView.findViewById(R.id.textView2);
+            itemUsername = itemView.findViewById(R.id.chatrecyclerView);
+            lastMessage = itemView.findViewById(R.id.chatlistlastmessge);
         }
     }
 }
