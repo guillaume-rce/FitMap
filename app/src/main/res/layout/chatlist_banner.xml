@@ -10,7 +10,6 @@
     android:background="#E7F9F3"
     >
 
-
     <ImageButton
         android:id="@+id/returnButton"
         android:layout_width="0dp"
@@ -35,8 +34,8 @@
             android:queryHint="Search"
             android:gravity="start|center"
             android:textStyle="bold"
-            android:textSize="25dp"
-            android:text="Discussion"/>
+            android:textSize="25sp"
+            android:text="@string/chatlist_discussion"/>
 
     </LinearLayout>
     <ImageButton
@@ -58,6 +57,6 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/ic_addconversation"
-        android:contentDescription="Ajouter une nouvelle conversation" />
+        android:contentDescription="@string/chatlist_conv_desc" />
 
 </LinearLayout>

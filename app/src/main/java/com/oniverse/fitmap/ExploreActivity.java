@@ -44,6 +44,7 @@ public class ExploreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding_explore = ActivityExploreBinding.inflate(getLayoutInflater());
         setContentView(binding_explore.getRoot());
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Context ctx = getApplicationContext();

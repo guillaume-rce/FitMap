@@ -9,7 +9,7 @@ import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import java.io.File;
 import java.io.Serializable;
 
-public class Track {
+public class Track implements Serializable {
     public long id;
     public String name;
     public String difficulty;
@@ -55,23 +55,23 @@ public class Track {
         }
     }
 
-    public static class Activity {
+    public static class Activity implements Serializable {
         public long id;
         public String name;
         public String i18n;
     }
 
-    public static class Elevation {
+    public static class Elevation implements Serializable {
         public long ascent;
         public long descent;
     }
     
-    public static class Location {
+    public static class Location implements Serializable {
         public String name;
         public TrackPoint point;
     }
 
-    public static class GpxTrack {
+    public static class GpxTrack implements Serializable {
         private String path;
         private Gpx gpx;
 

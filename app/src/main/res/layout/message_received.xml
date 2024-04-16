@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/message_received_background"
             android:padding="10dp"
-            android:text="Message envoyé"
+            android:text="@string/msg"
             android:textColor="@android:color/black" />
     </LinearLayout>
 
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="Delivered"
+        android:text="@string/msg_delivered"
         android:textAlignment="textEnd"
         android:visibility="gone"/>
 
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="02/01/1990 06:19PM"
+        android:text="@string/msg_date"
         android:textSize="12sp" />
 
 </LinearLayout>

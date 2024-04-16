@@ -235,7 +235,7 @@ public class MapRenderer {
 
             Intent intent = new Intent(context, TrackActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putLong("track_id", track.id);
+            bundle.putSerializable("track", track);
             intent.putExtras(bundle);
             context.startActivity(intent);
 

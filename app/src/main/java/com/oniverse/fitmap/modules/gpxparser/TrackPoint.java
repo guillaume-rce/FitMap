@@ -4,8 +4,10 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.io.Serializable;
+
 @Root(name="trkpt", strict=false)
-public class TrackPoint {
+public class TrackPoint implements Serializable {
     @Attribute(name="lat")
     private double latitude;
 

@@ -45,8 +45,8 @@
             android:queryHint="Search"
             android:gravity="start|center"
             android:textStyle="bold"
-            android:textSize="25dp"
-            android:text="Username"/>
+            android:textSize="25sp"
+            android:text="@string/profile_username"/>
 
     </LinearLayout>
     <ImageButton

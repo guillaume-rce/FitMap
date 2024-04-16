@@ -25,7 +25,7 @@ public class TrackActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         assert bundle != null;
-        Track track = TrackList.getInstance().getTrack(bundle.getLong("track_id"));
+        Track track = (Track) bundle.getSerializable("track");
 
         mapRenderer = new MapRenderer(binding.map);
         mapRenderer.setZoom(15);

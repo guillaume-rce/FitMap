@@ -19,13 +19,16 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo_fitmap_nobg"
-        android:roundIcon="@drawable/logo_fitmap_nobg"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/logo_fitmap_nobg"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitMap"
         tools:targetApi="31">
+        <activity
+            android:name=".FavoriteActivity"
+            android:exported="false" />
         <activity
             android:name=".UserListActivity"
             android:exported="false" />
@@ -52,7 +55,7 @@
             android:exported="true" />
         <activity
             android:name=".PermissionActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
-            android:hint="Email"
+            android:hint="@string/form_email"
             android:inputType="textEmailAddress"
             android:padding="12dp"
             android:background="@drawable/edit_text_background" />
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
-            android:hint="Mot de passe"
+            android:hint="@string/form_password"
             android:inputType="textPassword"
             android:padding="12dp"
             android:background="@drawable/edit_text_background" />
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:text="Mot de passe oublié ?"
+            android:text="@string/form_forgot_password"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="16sp" />
 
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/se_connecter"
+            android:text="@string/form_sign_in"
             android:textColor="@android:color/white"
             android:backgroundTint="#05364f"
             android:padding="12dp" />
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            android:text="Vous n'avez pas de compte  ?"
+            android:text="@string/form_have_not_account"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
 
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:text="S'inscrire"
+            android:text="@string/form_register"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="16sp" />
 

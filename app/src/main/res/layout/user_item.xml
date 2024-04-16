@@ -10,14 +10,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Nom d'utilisateur"
+        android:text="@string/user_name"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="@string/user_email"
         android:textSize="14sp" />
 
 </LinearLayout>
