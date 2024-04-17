@@ -8,7 +8,15 @@ import org.simpleframework.xml.core.Persister;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
+/**
+ * Model class for GPX files
+ * Represents the root element of a GPX file
+ * Contains a list of tracks
+ * Tracks contain a list of segments
+ * Segments contain a list of track points
+ * Track points contain latitude, longitude, elevation, and time
+ * @see Track
+ */
 @Root(name="gpx", strict=false)
 public class Gpx {
     @ElementList(inline=true)

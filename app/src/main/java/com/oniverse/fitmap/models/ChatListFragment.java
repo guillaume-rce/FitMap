@@ -47,7 +47,12 @@ public class ChatListFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment ChatListFragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -95,7 +100,9 @@ public class ChatListFragment extends Fragment {
 
     }
 
-    // loading the user chat layout using chat node
+    /**
+     * Load chats
+     */
     private void loadChats() {
         usersList = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -127,7 +134,11 @@ public class ChatListFragment extends Fragment {
             }
         });
     }
-
+    /**
+     * Get the last message
+     *
+     * @param uid The user id.
+     */
     private void lastMessage(final String uid) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Chats");
         ref.addValueEventListener(new ValueEventListener() {
@@ -168,7 +179,11 @@ public class ChatListFragment extends Fragment {
             }
         });
     }
-
+    /**
+     * Called when the fragment is created.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);

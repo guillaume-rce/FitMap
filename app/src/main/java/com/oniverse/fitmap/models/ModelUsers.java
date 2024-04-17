@@ -1,5 +1,7 @@
 package com.oniverse.fitmap.models;
-
+/**
+ * Model class for chat messages
+ */
 public class ModelUsers {
     String name, email, search, phone, image, cover, uid, typingTo, onlineStatus, typing;
 

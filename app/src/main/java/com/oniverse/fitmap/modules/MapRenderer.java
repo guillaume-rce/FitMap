@@ -34,7 +34,11 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * Class to render a map
+ * Contains methods to add markers, polylines, and overlays
+ * @see MapView
+ */
 public class MapRenderer {
     private static MapRenderer mapRenderer = null;
     private final MapView map;
@@ -80,7 +84,10 @@ public class MapRenderer {
         mapController.setZoom(zoom);
         mapController.setCenter(center);
     }
-
+    /**
+     * Add the MyLocationOverlay to the map
+     * The MyLocationOverlay shows the user's location on the map
+     */
     public void addMyLocationOverlay() {
         // TODO: Use another method because this one seems to don't work
         if (this.mLocationOverlay == null) {

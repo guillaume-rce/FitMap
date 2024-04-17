@@ -46,7 +46,13 @@ public class TrackInfo extends Fragment {
     public TrackInfo() {
         // Required empty public constructor
     }
-
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param track The track to display.
+     * @return A new instance of fragment TrackInfo.
+     */
     public static TrackInfo newInstance(String track) {
         TrackInfo fragment = new TrackInfo();
         Bundle args = new Bundle();
@@ -54,14 +60,26 @@ public class TrackInfo extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    /**
+     * Called when the fragment is created.
+     *
+     * @param inflater The layout inflater.
+     * @param container The container.
+     * @param savedInstanceState The saved instance state.
+     * @return The view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_track_info, container, false);
     }
-
+    /**
+     * Called when the view is created.
+     *
+     * @param view The view.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -158,7 +176,11 @@ public class TrackInfo extends Fragment {
              */
         }
     }
-
+    /**
+     * Toggle the live tracking.
+     *
+     * @param view The view.
+     */
     public void toggleLiveTracking(View view) {
         // Start or stop the live tracking
         liveTracking = !liveTracking;
@@ -176,7 +198,11 @@ public class TrackInfo extends Fragment {
             activity.setLiveTracking(liveTracking);
         }
     }
-
+    /**
+     * Stop the live tracking.
+     *
+     * @param view The view.
+     */
     public void stopLiveTracking(View view) {
         // Stop the live tracking
         liveTracking = false;
@@ -189,7 +215,11 @@ public class TrackInfo extends Fragment {
             activity.stopLiveTracking();
         }
     }
-
+    /**
+     * Go back to the explore activity.
+     *
+     * @param view The view.
+     */
     public void back(View view) {
         // Go back to the explore activity
         TrackActivity activity = (TrackActivity) getActivity();

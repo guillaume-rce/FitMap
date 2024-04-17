@@ -5,7 +5,12 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.util.List;
-
+/**
+ * Model class for GPX tracks
+ * Represents a track element in a GPX file
+ * Contains a name and a list of track segments
+ * @see TrackSegment
+ */
 @Root(name="trk", strict=false)
 public class Track {
     @Element(name="name")

@@ -5,7 +5,12 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 import java.io.Serializable;
-
+/**
+ * Model class for GPX track points
+ * Represents a track point element in a GPX file
+ * Contains latitude, longitude, elevation, and time
+ * @see Track
+ */
 @Root(name="trkpt", strict=false)
 public class TrackPoint implements Serializable {
     @Attribute(name="lat")

@@ -1,5 +1,8 @@
 package com.oniverse.fitmap.models;
 
+/**
+ * Model class for chat messages
+ */
 public class ModelChat {
     String message;
 
