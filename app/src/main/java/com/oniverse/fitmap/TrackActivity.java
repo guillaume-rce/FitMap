@@ -15,6 +15,10 @@ import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.service.Localisation;
 
+/**
+ * TrackActivity class
+ * It will display the track and track information.
+ */
 public class TrackActivity extends AppCompatActivity {
     private ActivityTrackBinding binding;
     private MapRenderer mapRenderer;
@@ -35,6 +39,11 @@ public class TrackActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * onCreate method
+     * It will display the track and track information.
+     * @param savedInstanceState Bundle The saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,21 +73,32 @@ public class TrackActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(trackInfoLayout.getId(), trackInfo).commit();
     }
 
+    /**
+     * This method will toggle the live tracking in the service.
+     * @param liveTracking boolean The live tracking state
+     */
     public void setLiveTracking(boolean liveTracking) {
         if (isBound && localisationService != null) {
             localisationService.setLiveTracking(liveTracking);
         }
     }
 
+    /**
+     * This method will stop the live tracking in the service.
+     * And clear the polyline on the map.
+     */
     public void stopLiveTracking() {
         setLiveTracking(false);
-        mapRenderer.clearPolylineLive();
+        mapRenderer.clearPolylineLive(); // Clear the polyline on the map
     }
 
+    /**
+     * It will go back to the ExploreActivity.
+     */
     public void back() {
         stopLiveTracking();
         if (isBound) {
-            unbindService(connection);
+            unbindService(connection); // Unbind the service to avoid memory leaks
             isBound = false;
         }
         stopService(new Intent(this, Localisation.class));

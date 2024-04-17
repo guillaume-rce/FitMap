@@ -1,13 +1,15 @@
 # Projet FITMAP - Application de sortie sportive
 
+**Attention :** Ce projet est en cours de développement et peut être assez instable. L'API OpenRunner est notamment restrictive sur son nombre de requêtes. Si l'application crash, n'hésitez pas à la relancer ou contacter les auteurs.
+
 ## Description
 L'application FitMap est une application de sortie sportive qui permet à l'utilisateur de trouver des routes de course à pied, de vélo ou de marche à proximité de sa position. L'utilisateur pourra également suivre les traces GPS en temps réel.
 
 Un système de chat est également disponible pour permettre aux utilisateurs de discuter entre eux ainsi que de se partager des images et activités sportives.
 
 # Capture d'écran
-![Capture 1](image.png)
-![Capture 2](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
 
 ## Fonctionnalités
 - Chargement d'activités sportives depuis l'API OpenRunner

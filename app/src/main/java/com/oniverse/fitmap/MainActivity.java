@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * MainActivity class
+ * It must be changed to LoadActivity. It will load all the tracks and then switch to HomeActivity.
+ */
 public class MainActivity extends AppCompatActivity {
     private int total_page;
     private int trackProgress = 0;
@@ -28,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean moreInfoLoaded = false;
     private boolean switchToHomeActivity = false;
 
+    /**
+     * onCreate method
+     * It will load all the tracks and then switch to HomeActivity.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * updateProgress method
+     * It will update the progress bar. It will be called after loading the tracks, downloading the GPX files and loading more details.
+     */
     public void updateProgress() {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
 
@@ -64,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setProgress(totalProgress);
     }
 
+    /**
+     * This method will load all the tracks from the API.
+     */
     public void loadTracks() {
         if (!tracksLoaded) {
             tracksLoaded = true;
@@ -84,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method will download the GPX files.
+     */
     public void downloadGpx() {
         if (trackProgress >= 100 && !gpxDownloaded) {
             gpxDownloaded = true;
@@ -109,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method will load more details for the tracks. (Just the difficulty for now)
+     */
     public void loadMoreDetails() {
         if (trackProgress >= 100 && !moreInfoLoaded) {
             moreInfoLoaded = true;
@@ -126,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method will switch to HomeActivity when all the tracks are loaded.
+     */
     public void switchToHomeActivity() {
         if (totalProgress >= 100 && !switchToHomeActivity) {
             switchToHomeActivity = true;
@@ -146,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method will load the start and end points for each track.
+     */
     public void loadPoints() {
         ArrayList<Track> tracks = TrackList.getInstance().getTracks();
         for (int i = 0; i < tracks.size(); i++) {

@@ -15,11 +15,20 @@ import com.oniverse.fitmap.databinding.ActivityPermissionBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * PermissionActivity class
+ * It will request the permissions and switch to MainActivity.
+ */
 public class PermissionActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     private ActivityPermissionBinding binding;
 
+    /**
+     * onCreate method
+     * It will request the permissions and switch to MainActivity.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +55,23 @@ public class PermissionActivity extends AppCompatActivity {
         switchToMainActivity();
     }
 
+    /**
+     * switchToMainActivity method
+     * It will switch to MainActivity.
+     */
     private void switchToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * onRequestPermissionsResult method
+     * It will request the permissions if necessary.
+     * @param requestCode int The request code
+     * @param permissions String[] The permissions
+     * @param grantResults int[] The results of the permissions
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -69,6 +89,11 @@ public class PermissionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * requestPermissionsIfNecessary method
+     * It will request the permissions if necessary.
+     * @param permissions String[] The permissions to request
+     */
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (String permission : permissions) {
@@ -86,6 +111,12 @@ public class PermissionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * checkPermissions method
+     * It will check the permissions.
+     * @param permissions String[] The permissions to check
+     * @return boolean true if the permissions are granted, false otherwise
+     */
     private boolean checkPermissions(String[] permissions) {
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(this, permission)
