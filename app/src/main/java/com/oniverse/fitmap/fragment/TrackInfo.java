@@ -1,6 +1,5 @@
 package com.oniverse.fitmap.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -13,11 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oniverse.fitmap.ExploreActivity;
 import com.oniverse.fitmap.R;
+import com.oniverse.fitmap.TrackActivity;
 import com.oniverse.fitmap.modules.Utils;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
@@ -40,6 +39,9 @@ import lecho.lib.hellocharts.model.LineChartData;
 public class TrackInfo extends Fragment {
 
     private static final String ARG_PARAM1 = "track";
+    private boolean liveTracking = false;
+    private ImageButton liveTrackingButton;
+    private ImageButton stopLiveTrackingButton;
 
     public TrackInfo() {
         // Required empty public constructor
@@ -53,13 +55,30 @@ public class TrackInfo extends Fragment {
         return fragment;
     }
 
-    @SuppressLint("DefaultLocale")
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_track_info, container, false);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Initializing buttons
+        liveTrackingButton = view.findViewById(R.id.livetrack_button);
+        stopLiveTrackingButton = view.findViewById(R.id.stop_livetrack_button);
+
         ImageButton back = view.findViewById(R.id.back_button);
         back.setOnClickListener(this::back);
+
+        liveTrackingButton.setOnClickListener(this::toggleLiveTracking);
+        stopLiveTrackingButton.setOnClickListener(this::stopLiveTracking);
+
+        if (liveTrackingButton == null || stopLiveTrackingButton == null) {
+            throw new IllegalStateException("One or more buttons are not initialized!");
+        }
 
         if (getArguments() != null) {
             String track = getArguments().getString(ARG_PARAM1);
@@ -140,16 +159,42 @@ public class TrackInfo extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_track_info, container, false);
+    public void toggleLiveTracking(View view) {
+        // Start or stop the live tracking
+        liveTracking = !liveTracking;
+
+        if (liveTracking) {
+            liveTrackingButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_pause));
+            stopLiveTrackingButton.setVisibility(View.VISIBLE);
+        } else {
+            liveTrackingButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_play));
+            stopLiveTrackingButton.setVisibility(View.INVISIBLE);
+        }
+
+        TrackActivity activity = (TrackActivity) getActivity();
+        if (activity != null) {
+            activity.setLiveTracking(liveTracking);
+        }
+    }
+
+    public void stopLiveTracking(View view) {
+        // Stop the live tracking
+        liveTracking = false;
+
+        liveTrackingButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_play));
+        stopLiveTrackingButton.setVisibility(View.INVISIBLE);
+
+        TrackActivity activity = (TrackActivity) getActivity();
+        if (activity != null) {
+            activity.stopLiveTracking();
+        }
     }
 
     public void back(View view) {
         // Go back to the explore activity
-        Intent intent = new Intent(getContext(), ExploreActivity.class);
-        startActivity(intent);
+        TrackActivity activity = (TrackActivity) getActivity();
+        if (activity != null) {
+            activity.back();
+        }
     }
 }

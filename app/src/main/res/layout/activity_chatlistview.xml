@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_conversationlayout"
+    android:backgroundTint="@color/background_tint"
     tools:context=".ChatActivity">
 
     <include layout="@layout/chatlist_banner"

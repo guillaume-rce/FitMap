@@ -11,4 +11,6 @@
     <color name="greenLightTwo">#1ad58e</color>
     <color name="greenVeryLight">#93E7CB</color>
     <color name="greenUltraLight">#E6EBED</color>
+    <color name="colorPolylineLive">#0A8A53</color>
+    <color name="background_tint">#E6EBED</color>
 </resources>

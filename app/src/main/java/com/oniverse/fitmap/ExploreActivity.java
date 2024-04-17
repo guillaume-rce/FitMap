@@ -24,11 +24,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.databinding.ActivityExploreBinding;
-import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 import com.oniverse.fitmap.modules.tracks.Track;
+import com.oniverse.fitmap.service.Localisation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,13 +65,14 @@ public class ExploreActivity extends AppCompatActivity {
         map.addRotationGestureOverlay();
         map.addCompassOverlay();
 
-        Intent serviceIntent = new Intent(this, Localisation.class);
-        startService(serviceIntent);
+        Intent localisationIntent = new Intent(this, Localisation.class);
+        startService(localisationIntent);
 
         for (Track track: TrackList.getInstance().getTracks()) {
             TrackPoint start = track.start_location.point;
             if (start != null) {
-                map.drawPointWithGpxLoader(start, track.name, this);
+                map.drawPointWithGpxLoader(start, track.name,
+                        this, localisationIntent);
             }
         }
 
@@ -82,11 +83,16 @@ public class ExploreActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.navigation_home) {
+                    // Stop the service
+                    stopService(localisationIntent);
                     startActivity(new Intent(ExploreActivity.this, HomeActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.navigation_explore) {
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
+                    // Stop the service
+                    stopService(localisationIntent);
+
                     if (currentUser != null) {
                         // rediriger vers la page
                         startActivity(new Intent(ExploreActivity.this, ChatActivity.class));
