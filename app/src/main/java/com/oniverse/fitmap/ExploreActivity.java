@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.oniverse.fitmap.databinding.ActivityExploreBinding;
 import com.oniverse.fitmap.databinding.ActivityMainBinding;
 import com.oniverse.fitmap.modules.MapRenderer;
+import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 import com.oniverse.fitmap.modules.tracks.Track;
 
@@ -43,6 +44,7 @@ public class ExploreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding_explore = ActivityExploreBinding.inflate(getLayoutInflater());
         setContentView(binding_explore.getRoot());
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Context ctx = getApplicationContext();
@@ -61,11 +63,16 @@ public class ExploreActivity extends AppCompatActivity {
         map.setZoom(9.5F, new GeoPoint(48.8583, 2.2944));
         map.addMapScaleBarOverlay();
         map.addRotationGestureOverlay();
-        map.addMyLocationOverlay();
         map.addCompassOverlay();
 
+        Intent serviceIntent = new Intent(this, Localisation.class);
+        startService(serviceIntent);
+
         for (Track track: TrackList.getInstance().getTracks()) {
-            map.drawPointWithGpxLoader(track.start_location.point, track.name, this);
+            TrackPoint start = track.start_location.point;
+            if (start != null) {
+                map.drawPointWithGpxLoader(start, track.name, this);
+            }
         }
 
         // ---------------- Add navbar ----------------
@@ -82,7 +89,7 @@ public class ExploreActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.navigation_chat) {
                     if (currentUser != null) {
                         // rediriger vers la page
-                        startActivity(new Intent(ExploreActivity.this, ChatActivity.class));
+                        startActivity(new Intent(ExploreActivity.this, ChatListActivity.class));
                     } else {
                         // Rediriger vers la page de connexion
                         startActivity(new Intent(ExploreActivity.this, SigninActivity.class));

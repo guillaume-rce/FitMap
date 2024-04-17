@@ -4,5 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorGreen">#90EE90</color>
-    <color name="colorOfStatusBar">#003A50</color>
+    <color name="blue">#003A50</color>
+    <color name="greenDark">#059989</color>
+    <color name="greenDarkTwo">#0A8A53</color>
+    <color name="greenLight">#16cc8f</color>
+    <color name="greenLightTwo">#1ad58e</color>
+    <color name="greenVeryLight">#93E7CB</color>
+    <color name="greenUltraLight">#E6EBED</color>
 </resources>

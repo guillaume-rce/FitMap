@@ -1,5 +1,6 @@
 package com.oniverse.fitmap.modules;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -28,12 +29,14 @@ import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class MapRenderer {
+    private static MapRenderer mapRenderer = null;
     private final MapView map;
     private final Context context;
 
@@ -57,6 +60,8 @@ public class MapRenderer {
         this.map.setMultiTouchControls(true);
 
         this.context = map.getContext();
+
+        mapRenderer = this;
     }
 
     public void setZoom(float zoom) {
@@ -235,7 +240,7 @@ public class MapRenderer {
 
             Intent intent = new Intent(context, TrackActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putLong("track_id", track.id);
+            bundle.putSerializable("track", track);
             intent.putExtras(bundle);
             context.startActivity(intent);
 
@@ -259,5 +264,13 @@ public class MapRenderer {
         // Zoom and center the track
         this.setZoom(15);
         this.setCenter(geoPoints.get(0));
+    }
+
+    public void updateMarkerPosition(Marker currentMarker, GeoPoint point) {
+        currentMarker.setPosition(point);
+    }
+
+    public static MapRenderer getInstance() {
+        return mapRenderer;
     }
 }

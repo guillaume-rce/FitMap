@@ -40,9 +40,9 @@ public class TrackList {
         return tracks;
     }
 
-    public void addTrack(Track track) {
-        tracks.add(track);
-        total++;
+    public void removeTrack(Track track) {
+        tracks.remove(track);
+        total--;
     }
 
     public void addTracks(List<Track> tracks) {
@@ -63,6 +63,10 @@ public class TrackList {
 
     public ApiMetaData getApiMetaData() {
         return apiMetaData;
+    }
+
+    public int getTotalWithDifficulty() {
+        return (int) tracks.stream().filter(track -> track.difficulty != null && !track.difficulty.isEmpty()).count();
     }
 
     public static class ApiMetaData {

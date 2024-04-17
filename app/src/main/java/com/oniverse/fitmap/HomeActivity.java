@@ -62,7 +62,6 @@ public class HomeActivity extends AppCompatActivity {
         map.setZoom(9.5F, new GeoPoint(48.8583, 2.2944));
         map.addMapScaleBarOverlay();
         map.addRotationGestureOverlay();
-        map.addMyLocationOverlay();
         map.addCompassOverlay();
 
         for (Track track: TrackList.getInstance().getTracks()) {
@@ -70,6 +69,9 @@ public class HomeActivity extends AppCompatActivity {
             if (firstPoint != null)
                 map.drawPoint(firstPoint, track.name);
         }
+
+        Intent serviceIntent = new Intent(this, Localisation.class);
+        startService(serviceIntent);
 
         // Add the alert fragment
         LinearLayout alertContainer = findViewById(R.id.main_alert);

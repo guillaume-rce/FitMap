@@ -10,9 +10,8 @@
     android:background="#E7F9F3"
     >
 
-
     <ImageButton
-        android:id="@+id/chatlistprofileimage"
+        android:id="@+id/returnButton"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -28,15 +27,15 @@
         android:padding="15dp" >
 
         <TextView
-            android:id="@+id/titleView"
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:iconifiedByDefault="false"
             android:queryHint="Search"
             android:gravity="start|center"
             android:textStyle="bold"
-            android:textSize="25dp"
-            android:text="Discussion"/>
+            android:textSize="25sp"
+            android:text="@string/chatlist_discussion"/>
 
     </LinearLayout>
     <ImageButton
@@ -50,7 +49,7 @@
         app:srcCompat="@drawable/ic_search"
         android:contentDescription="@string/logoDesc" />
     <ImageButton
-        android:id="@+id/addconversation"
+        android:id="@+id/startNewConversationButton"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -58,6 +57,6 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/ic_addconversation"
-        android:contentDescription="Ajouter une nouvelle conversation" />
+        android:contentDescription="@string/chatlist_conv_desc" />
 
 </LinearLayout>

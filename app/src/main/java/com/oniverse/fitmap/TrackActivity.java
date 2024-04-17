@@ -25,15 +25,18 @@ public class TrackActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         assert bundle != null;
-        Track track = TrackList.getInstance().getTrack(bundle.getLong("track_id"));
+        Track track = (Track) bundle.getSerializable("track");
 
         mapRenderer = new MapRenderer(binding.map);
         mapRenderer.setZoom(15);
         mapRenderer.addMapScaleBarOverlay();
         mapRenderer.addRotationGestureOverlay();
-        mapRenderer.addMyLocationOverlay();
         mapRenderer.addCompassOverlay();
+        assert track != null;
         mapRenderer.setGpx(track.getGpxTrack().getGpx());
+
+        Intent serviceIntent = new Intent(this, Localisation.class);
+        startService(serviceIntent);
 
         LinearLayout trackInfoLayout = findViewById(R.id.track_info);
         TrackInfo trackInfo = TrackInfo.newInstance(String.valueOf(track.id));

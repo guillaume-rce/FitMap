@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#efffef"
+    android:background="@color/greenUltraLight"
     tools:context=".RegisterActivity">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="@drawable/edit_text_background"
-        android:hint="Nom"
+        android:hint="@string/form_name"
         android:inputType="textPersonName"
         android:padding="12dp" />
 
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
-        android:hint="Prénom"
+        android:hint="@string/form_firstname"
         android:inputType="textPersonName"
         android:padding="12dp" />
 
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
-        android:hint="Email"
+        android:hint="@string/form_email"
         android:inputType="textEmailAddress"
         android:padding="12dp" />
 
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
-        android:hint="Mot de passe"
+        android:hint="@string/form_password"
         android:inputType="textPassword"
         android:padding="12dp" />
 
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
-        android:hint="Confirmer le mot de passe"
+        android:hint="@string/form_confirm_password"
         android:inputType="textPassword"
         android:padding="12dp" />
 
@@ -74,7 +74,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_button"
         android:padding="12dp"
-        android:text="S'inscrire"
+        android:text="@string/form_inscription_submit"
         android:textColor="@android:color/white" />
 
     <TextView
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:text="Vous avez déjà un compte ?"
+        android:text="@string/form_have_account"
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp" />
 
@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="Se connecter"
+        android:text="@string/form_sign_in"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="16sp" />
 

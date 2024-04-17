@@ -12,12 +12,12 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
-        <include layout="@layout/banner"
+        <include
             android:id="@+id/main_banner"
+            layout="@layout/banner"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/main_alert"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/nav_bar_menu"
-        app:itemIconTint="#044D00"
-        app:itemBackground="@drawable/item_ripple" />
+        app:itemBackground="@drawable/item_ripple"
+        app:itemIconTint="@color/greenDarkTwo"
+        app:menu="@menu/nav_bar_menu" />
 </RelativeLayout>

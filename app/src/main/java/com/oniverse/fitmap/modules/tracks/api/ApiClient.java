@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
 
+import java.sql.Time;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -22,19 +23,11 @@ public class ApiClient {
     private static final String BASE_URL = "https://api.openrunner.com/api/v2/";
     private static final int timeout = 30;
 
-    public static void findTracks(int page) {
-        findTracks(page, false, null);
-    }
-
-    public static void findTracks(int page, boolean downloadGpx, Context context) {
-        findTracks(page, downloadGpx, context, () -> null);
-    }
-
-    public static void findTracks(int page, boolean downloadGpx, Context context, Callable<Void> callback) {
+    public static void findTracks(int page, Callable<Void> callback) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
-                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
-                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .readTimeout(timeout, TimeUnit.SECONDS)
+                .writeTimeout(timeout, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -53,18 +46,9 @@ public class ApiClient {
                     if (routeResponse != null) {
                         TrackList.getInstance().addTracks(routeResponse.data);
 
-                        for (Track track : routeResponse.data) {
-                            findMoreInfo(track);
-                        }
-
-                        if (downloadGpx) {
-                            for (Track track : routeResponse.data) {
-                                downloadGpxFile(track, context, callback);
-                            }
-                        }
-
                         System.gc();
                         Runtime.getRuntime().gc();
+
                         try {
                             callback.call();
                         } catch (Exception e) {
@@ -81,11 +65,11 @@ public class ApiClient {
         });
     }
 
-    public static void findMoreInfo(Track track) {
+    public static void findMoreInfo(Track track, Callable<Void> callback) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
-                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
-                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .readTimeout(timeout, TimeUnit.SECONDS)
+                .writeTimeout(timeout, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -100,30 +84,49 @@ public class ApiClient {
             @Override
             public void onResponse(@NonNull Call<TrackResponse> call, @NonNull Response<TrackResponse> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("Found more info for track " + track.id);
                     TrackResponse trackResponse = response.body();
                     if (trackResponse != null && trackResponse.data.id == track.id) {
-                        System.out.println(trackResponse.data.difficulty);
-                        track.difficulty = trackResponse.data.difficulty;
+                        if (trackResponse.data.difficulty == null || trackResponse.data.difficulty.isEmpty()) {
+                            track.difficulty = "null";
+                        } else {
+                            track.difficulty = trackResponse.data.difficulty;
+                        }
                         // add more info here if needed
                     }
                     System.gc();
                     Runtime.getRuntime().gc();
+
+                    try {
+                        callback.call();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<TrackResponse> call, @NonNull Throwable t) {
-                t.printStackTrace();
+                System.out.println("Failed to get more info for track: " + track.id + "." +
+                        "Setting difficulty to null." + "\nError: " + t.getMessage());
+                track.difficulty = "null";
+
+                System.gc();
+                Runtime.getRuntime().gc();
+
+                try {
+                    callback.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     public static void setMetaData(Callable<Void> callback) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
-                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
-                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .readTimeout(timeout, TimeUnit.SECONDS)
+                .writeTimeout(timeout, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -145,6 +148,7 @@ public class ApiClient {
                                         routeResponse.meta.total, routeResponse.meta.per_page));
                         System.gc();
                         Runtime.getRuntime().gc();
+
                         try {
                             callback.call();
                         } catch (Exception e) {
@@ -161,15 +165,23 @@ public class ApiClient {
         });
     }
 
-    public static void downloadGpxFile(Track track, Context context) {
-        downloadGpxFile(track, context, () -> null);
-    }
+    public static void downloadGpxFile(Track track, Context context, boolean checkIfExist, Callable<Void> callback) {
+        if (checkIfExist && track.loadGpxTrack(context) && track.isGpxTrackValid()){
+            System.gc();
+            Runtime.getRuntime().gc();
+            System.out.println("---- Already downloaded ----");
+            try {
+                callback.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
 
-    public static void downloadGpxFile(Track track, Context context, Callable<Void> callback) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la connexion
-                .readTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de la lecture des données
-                .writeTimeout(timeout, TimeUnit.SECONDS) // Temps d'attente de l'écriture des données
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .readTimeout(timeout, TimeUnit.SECONDS)
+                .writeTimeout(timeout, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -201,7 +213,8 @@ public class ApiClient {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        t.printStackTrace();
+                        throw new RuntimeException(
+                                "Failed to download GPX file for track: " + track.id + ". Error: " + t.getMessage());
                     }
                 });
     }

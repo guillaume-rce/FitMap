@@ -1,53 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_chat"
     tools:context=".ChatActivity">
 
-    <include layout="@layout/chat_profile_banner"
-        android:id="@+id/profil_banner"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profiletv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_profile"
+                app:civ_circle_background_color="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameptv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="HisName"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/onlinetv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Online"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_phone" />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatrecyclerView"
+        android:id="@+id/chatrecycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/layout_send_message"
-        android:layout_below="@id/profil_banner"
-        android:layout_marginBottom="0dp"
-        android:clipToPadding="false"
-        android:padding="16dp"
-        android:scrollbars="vertical" />
+        android:layout_above="@id/chatlayout"
+        android:layout_below="@id/toolbar" />
 
     <LinearLayout
-        android:id="@+id/layout_send_message"
+        android:id="@+id/chatlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/attachment_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_attach_file" />
+            android:id="@+id/attachbtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:src="@drawable/ic_paperclip_solid" />
 
         <EditText
-            android:id="@+id/editText_message"
-            android:layout_width="304dp"
+            android:id="@+id/messaget"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Tapez un message" />
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="Start Typing"
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="15dp" />
 
         <ImageButton
-            android:id="@+id/button_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/sendmsg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
             android:src="@drawable/ic_send" />
 
     </LinearLayout>

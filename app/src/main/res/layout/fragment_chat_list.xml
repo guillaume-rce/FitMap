@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".models.ChatListFragment">
+    <include
+        layout="@layout/chatlist_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatlist_banner"
+        android:layout_below="@id/chatlistrecycle"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatlistrecycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_chatlist" />
+
+</FrameLayout>
