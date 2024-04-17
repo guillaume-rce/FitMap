@@ -1,18 +1,13 @@
 package com.oniverse.fitmap;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,14 +20,12 @@ import com.oniverse.fitmap.modules.MapRenderer;
 import com.oniverse.fitmap.modules.gpxparser.TrackPoint;
 import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.modules.tracks.TrackList;
+import com.oniverse.fitmap.service.Localisation;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
@@ -90,9 +83,13 @@ public class HomeActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.navigation_home) {
                     return true;
                 } else if (item.getItemId() == R.id.navigation_explore) {
+                    // Stop the service
+                    stopService(localisationIntent);
                     startActivity(new Intent(HomeActivity.this, ExploreActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.navigation_chat) {
+                    // Stop the service
+                    stopService(localisationIntent);
                     if (currentUser != null) {
                         // rediriger vers la page
                         startActivity(new Intent(HomeActivity.this, ChatListActivity.class));

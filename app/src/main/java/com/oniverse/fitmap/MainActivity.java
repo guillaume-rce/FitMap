@@ -64,66 +64,52 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setProgress(totalProgress);
     }
 
+    public void updateProgress() {
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+
+        int trackPerPage = TrackList.getInstance().getApiMetaData().perPage;
+        /*
+        Replace by:
+        int perPage = TrackList.getInstance().getApiMetaData().totalTracks;
+        If you want to load all tracks.
+         */
+        trackProgress = (TrackList.getInstance().getTotal() * 100) / (total_page * trackPerPage);
+
+        int gpxProgress = 0;
+        int moreInfoProgress = 0;
+
+        if (trackProgress >= 100) {
+            int trackNeeded = TrackList.getInstance().getTotal();
+            gpxProgress = (TrackList.getInstance().getTotalWithGpx() * 100) / trackNeeded;
+            moreInfoProgress = (TrackList.getInstance().getTotalWithDifficulty() * 100) / trackNeeded;
+        }
+
+        totalProgress = ((trackProgress + gpxProgress + moreInfoProgress) * 100) / 300;
+        progressBar.setProgress(totalProgress);
+    }
+
     public void loadTracks() {
-        if (!tracksLoaded) {
-            tracksLoaded = true;
-            total_page = 10;
-            /*
-            If you want to load all tracks, you can use the following code:
-            total_page = TrackList.getInstance().getApiMetaData().totalPage;
-            But be careful, it will download 10000 tracks (1000 pages) so it will take a lot of time.
-             */
-            for (int i = 1; i <= total_page; i++) {
-                ApiClient.findTracks(i, () -> {
-                    updateProgress();
-                    downloadGpx();
-                    loadMoreDetails();
-                    return null;
-                });
-            }
+        total_page = 0;
+        /*
+        If you want to load all tracks, you can use the following code:
+        total_page = TrackList.getInstance().getApiMetaData().totalPage;
+        But be careful, it will download 10000 tracks (1000 pages) so it will take a lot of time.
+         */
+        for (int i = 1; i <= total_page; i++) {
+            ApiClient.findTracks(i, true, this, () -> {
+                setProgressBarValue();
+                switchToHomeActivity();
+                return null;
+            });
         }
     }
 
-    public void downloadGpx() {
-        if (trackProgress >= 100 && !gpxDownloaded) {
-            gpxDownloaded = true;
-
-            ArrayList<Track> tracks = TrackList.getInstance().getTracks();
-            for (Track track : tracks) {
-                if (track == null)
-                    continue;
-                try {
-                    ApiClient.downloadGpxFile(track, getApplicationContext(), true, () -> {
-                        updateProgress();
-                        switchToHomeActivity();
-                        return null;
-                    });
-                } catch (Exception e) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setTitle("Error...");
-                    builder.setMessage("An error occurred while loading the track details.\nPlease apologize us and try again later.");
-                    builder.setCancelable(false);
-                }
-            }
-        }
-
-    }
-
-    public void loadMoreDetails() {
-        if (trackProgress >= 100 && !moreInfoLoaded) {
-            moreInfoLoaded = true;
-
-            ArrayList<Track> tracks = TrackList.getInstance().getTracks();
-            for (Track track : tracks) {
-                if (track == null)
-                    continue;
-                ApiClient.findMoreInfo(track, () -> {
-                    updateProgress();
-                    switchToHomeActivity();
-                    return null;
-                });
-            }
-        }
+    public void setProgressBarValue() {
+        ProgressBar progressBar = findViewById(R.id.download_bar);
+        int total = TrackList.getInstance().getTotalWithGpx();
+        int perPage = TrackList.getInstance().getApiMetaData().perPage;
+        progress = (total * 100) / (total_page * perPage);
+        progressBar.setProgress(progress);
     }
 
     public void switchToHomeActivity() {

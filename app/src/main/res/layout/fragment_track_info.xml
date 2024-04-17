@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_tint"
     tools:context=".fragment.TrackInfo">
 
     <LinearLayout
@@ -28,7 +29,31 @@
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/returnbutton"
                 android:contentDescription="@string/logoDesc" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
+                <ImageButton
+                    android:id="@+id/livetrack_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:backgroundTint="#00FFFFFF"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_play"/>
+                <ImageButton
+                    android:id="@+id/stop_livetrack_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:backgroundTint="#00FFFFFF"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_stop"/>
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
