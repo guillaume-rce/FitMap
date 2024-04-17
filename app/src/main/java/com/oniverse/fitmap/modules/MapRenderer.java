@@ -47,6 +47,7 @@ public class MapRenderer {
 
     private ArrayList<Marker> markers = new ArrayList<>();
     private ArrayList<Polyline> polylines = new ArrayList<>();
+    private Polyline polylineLive;
 
     public MapRenderer(MapView map) {
         this(map, TileSourceFactory.MAPNIK);
@@ -220,7 +221,8 @@ public class MapRenderer {
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
     }
 
-    public void drawPointWithGpxLoader(TrackPoint trackPoint, String title, Context context) {
+    public void drawPointWithGpxLoader(TrackPoint trackPoint, String title,
+                                       Context context, Intent locationIntent) {
         GeoPoint startPoint = new GeoPoint(trackPoint.getLatitude(), trackPoint.getLongitude());
         Marker marker = this.addMarker(startPoint,  title, context.getDrawable(R.drawable.icon_location),
                 Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
@@ -229,6 +231,10 @@ public class MapRenderer {
             TrackList trackList = TrackList.getInstance();
             Track track = trackList.getTrack(title);
 
+            // Stop the service
+            context.stopService(locationIntent);
+
+            // Clear the memory
             System.gc();
             Runtime.getRuntime().gc();
 
@@ -268,6 +274,23 @@ public class MapRenderer {
 
     public void updateMarkerPosition(Marker currentMarker, GeoPoint point) {
         currentMarker.setPosition(point);
+    }
+
+    public void addPolylineLive(GeoPoint geoPoint) {
+        if (polylineLive == null) {
+            polylineLive = new Polyline();
+            polylineLive.setColor(context.getColor(R.color.colorPolylineLive));
+            polylineLive.setWidth(5);
+            polylineLive.setGeodesic(true);
+            map.getOverlayManager().add(polylineLive);
+        }
+        polylineLive.addPoint(geoPoint);
+    }
+
+    public void clearPolylineLive() {
+        if (polylineLive != null) {
+            polylineLive.setPoints(new ArrayList<>());
+        }
     }
 
     public static MapRenderer getInstance() {

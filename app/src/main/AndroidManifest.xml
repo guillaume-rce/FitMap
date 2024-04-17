@@ -33,7 +33,7 @@
             android:theme="@style/Theme.FitMap" />
 
         <service
-            android:name=".Localisation"
+            android:name=".service.Localisation"
             android:enabled="true"
             android:exported="true" />
 
