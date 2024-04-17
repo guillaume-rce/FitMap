@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,14 +55,14 @@ public class ChatListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        Button startNewConversationButton = view.findViewById(R.id.startNewConversationButton);
+        ImageButton startNewConversationButton = view.findViewById(R.id.startNewConversationButton);
         startNewConversationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Lancez une nouvelle activité ou un fragment pour la conversation
                 // Vous devez remplacer "UID_DU_NOUVEL_INTERLOCUTEUR" par l'UID réel de l'interlocuteur
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("uid", "UID_DU_NOUVEL_INTERLOCUTEUR");
+                intent.putExtra("uid", "3fkv4QILpNetKL0OH0lrpmB7iFI3");
                 startActivity(intent);
             }
         });

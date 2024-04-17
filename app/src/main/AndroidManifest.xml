@@ -59,10 +59,10 @@
             android:name=".ExploreActivity"
             android:exported="true" />
         <activity
-            android:name=".PermissionActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".PermissionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
