@@ -89,7 +89,7 @@ public class ExploreActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.navigation_chat) {
                     if (currentUser != null) {
                         // rediriger vers la page
-                        startActivity(new Intent(ExploreActivity.this, ChatActivity.class));
+                        startActivity(new Intent(ExploreActivity.this, ChatListActivity.class));
                     } else {
                         // Rediriger vers la page de connexion
                         startActivity(new Intent(ExploreActivity.this, SigninActivity.class));

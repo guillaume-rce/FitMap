@@ -8,18 +8,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.oniverse.fitmap.SigninActivity;
-import com.oniverse.fitmap.modules.chat.User;
+import com.oniverse.fitmap.models.ModelUsers;
 
+/**
+ * A simple {@link AppCompatActivity} subclass.
+ * Use the {@link RegisterActivity} factory method to create an instance of this fragment.
+ * This class is used to register a new user.
+ * It is used to create a new user account with an email and password. and store the user data in Firebase Realtime Database.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText nameEditText, firstNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
@@ -27,11 +32,23 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView signInTextView;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+
+    /**
+     * Required empty public constructor
+     * This method is used to create the activity and initialize the user interface.
+     * @param savedInstanceState A mapping from String keys to various Parcelable values.
+     * @return void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register); // Assurez-vous que c'est le bon layout
-
+        // recapcha
+        FirebaseApp.initializeApp(/*context=*/ this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
+        // Fin recapcha
         nameEditText = findViewById(R.id.nameEditText);
         firstNameEditText = findViewById(R.id.firstNameEditText);
         emailEditText = findViewById(R.id.emailEditText);
@@ -41,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         signInTextView = findViewById(R.id.signUpTextView);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        mDatabase = FirebaseDatabase.getInstance("https://fitmap-bee8d-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +101,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * This method is used to create a new user account with an email and password.
+     * @param email The email of the user.
+     * @param password The password of the user.
+     * @param name The name of the user.
+     * @param firstName The first name of the user.
+     * @return void
+     */
     private void signUp(String email, String password, String name, String firstName) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
-                        saveUserToDatabase(user, name, firstName);
+                        saveUserToDatabase(user, name);
                     } else {
                         Toast.makeText(RegisterActivity.this, "L'utilisateur est nul", Toast.LENGTH_SHORT).show();
                     }
@@ -100,9 +124,21 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveUserToDatabase(FirebaseUser user, String name, String firstName) {
-        User newUser = new User(user.getUid(), name, firstName, user.getEmail());
-        mDatabase.child(user.getEmail()).setValue(newUser)
+    /**
+     * This method is used to save the user data in Firebase Realtime Database.
+     * @param user The user object.
+     * @param name The name of the user.
+     * @return void
+     */
+    private void saveUserToDatabase(FirebaseUser user, String name) {
+        // Correction : Suppression de la déclaration publique et de la syntaxe incorrecte pour la création de l'objet newUser
+        ModelUsers newUser = new ModelUsers(name, user.getEmail(), "search", "phone", "image", "cover", user.getUid(), "typingTo", "onlineStatus", "typing");
+
+        // Correction : Suppression de la syntaxe incorrecte pour la référence à la base de données
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+
+        // Correction : Utilisation de la référence correcte pour enregistrer l'utilisateur
+        mDatabase.child(user.getUid()).setValue(newUser)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterActivity.this, ChatActivity.class);
@@ -113,5 +149,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Erreur lors de l'inscription de l'utilisateur dans la base de données: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
 }

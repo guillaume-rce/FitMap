@@ -10,17 +10,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oniverse.fitmap.R;
-
+/**
+ * MainAlert.java
+ * Purpose: Fragment for alert dialog
+ * Description: This class is used to create the fragment for the alert dialog.
+ * It is used to display the alert dialog with the icon, title, and message.
+ */
 public class MainAlert extends Fragment {
 
     private static final String ARG_PARAM1 = "icon";
     private static final String ARG_PARAM2 = "title";
     private static final String ARG_PARAM3 = "message";
-
+/*
+        * Required empty public constructor
+        * This method is used to create the fragment for the alert dialog.
+        * @return void
+ */
     public MainAlert() {
         // Required empty public constructor
     }
-
+/*
+        * newInstance
+        * This method is used to create a new instance of the fragment for the alert dialog.
+        * @param iconResId The icon resource ID
+        * @param title The title of the alert dialog
+        * @param message The message of the alert dialog
+        * @return MainAlert
+ */
     public static MainAlert newInstance(int iconResId, String title, String message) {
         MainAlert fragment = new MainAlert();
         Bundle args = new Bundle();
