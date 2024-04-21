@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.FitMap" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:statusBarColor">@color/colorOfStatusBar</item>
     </style>
 
     <style name="Theme.FitMap" parent="Base.Theme.FitMap" />

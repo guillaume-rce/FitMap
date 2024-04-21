@@ -11,8 +11,8 @@ android {
         applicationId = "com.oniverse.fitmap"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "A0.2"
+        versionCode = 3
+        versionName = "A0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

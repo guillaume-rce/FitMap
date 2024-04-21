@@ -13,4 +13,5 @@
     <color name="greenUltraLight">#E6EBED</color>
     <color name="colorPolylineLive">#0A8A53</color>
     <color name="background_tint">#E6EBED</color>
+    <color name="colorOfStatusBar">#1ad58e</color>
 </resources>
