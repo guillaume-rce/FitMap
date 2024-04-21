@@ -76,7 +76,7 @@ public class ChatListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.chatlistrecycle);
         chatListList = new ArrayList<>();
         chatList = new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid());
+        reference = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("ChatList").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,7 +105,7 @@ public class ChatListFragment extends Fragment {
      */
     private void loadChats() {
         usersList = new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -140,7 +140,7 @@ public class ChatListFragment extends Fragment {
      * @param uid The user id.
      */
     private void lastMessage(final String uid) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Chats");
+        DatabaseReference ref = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Chats");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

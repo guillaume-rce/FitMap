@@ -9,10 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.appcheck.FirebaseAppCheck;
-import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -43,12 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register); // Assurez-vous que c'est le bon layout
-        // recapcha
-        FirebaseApp.initializeApp(/*context=*/ this);
-        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
-        firebaseAppCheck.installAppCheckProviderFactory(
-                PlayIntegrityAppCheckProviderFactory.getInstance());
-        // Fin recapcha
         nameEditText = findViewById(R.id.nameEditText);
         firstNameEditText = findViewById(R.id.firstNameEditText);
         emailEditText = findViewById(R.id.emailEditText);
@@ -135,13 +125,13 @@ public class RegisterActivity extends AppCompatActivity {
         ModelUsers newUser = new ModelUsers(name, user.getEmail(), "search", "phone", "image", "cover", user.getUid(), "typingTo", "onlineStatus", "typing");
 
         // Correction : Suppression de la syntaxe incorrecte pour la référence à la base de données
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
 
         // Correction : Utilisation de la référence correcte pour enregistrer l'utilisateur
         mDatabase.child(user.getUid()).setValue(newUser)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
                     startActivity(intent);
                     finish();
                 })

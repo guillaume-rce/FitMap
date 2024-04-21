@@ -102,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
         uid = getIntent().getStringExtra("uid");
 
         // getting uid of another user using intent
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/");
 
         // initialising permissions
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -192,14 +192,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void checkOnlineStatus(String status) {
         // check online status
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Users").child(myuid);
+        DatabaseReference dbref = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users").child(myuid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("onlineStatus", status);
         dbref.updateChildren(hashMap);
     }
 
     private void checkTypingStatus(String typing) {
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Users").child(myuid);
+        DatabaseReference dbref = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users").child(myuid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("typingTo", typing);
         dbref.updateChildren(hashMap);
@@ -215,7 +215,7 @@ public class ChatActivity extends AppCompatActivity {
     private void readMessages() {
         // show message after retrieving data
         chatList = new ArrayList<>();
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("Chats");
+        DatabaseReference dbref = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Chats");
         dbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -345,7 +345,7 @@ public class ChatActivity extends AppCompatActivity {
                 String downloadUri = uriTask.getResult().toString(); // getting url if task is successful
 
                 if (uriTask.isSuccessful()) {
-                    DatabaseReference re = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference re = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("sender", myuid);
                     hashMap.put("receiver", uid);
@@ -354,7 +354,7 @@ public class ChatActivity extends AppCompatActivity {
                     hashMap.put("dilihat", false);
                     hashMap.put("type", "images");
                     re.child("Chats").push().setValue(hashMap); // push in firebase using unique id
-                    final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("ChatList").child(uid).child(myuid);
+                    final DatabaseReference ref1 = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("ChatList").child(uid).child(myuid);
                     ref1.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -368,7 +368,7 @@ public class ChatActivity extends AppCompatActivity {
 
                         }
                     });
-                    final DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("ChatList").child(myuid).child(uid);
+                    final DatabaseReference ref2 = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("ChatList").child(myuid).child(uid);
                     ref2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -431,7 +431,7 @@ public class ChatActivity extends AppCompatActivity {
         // creating a reference to store data in firebase
         // We will be storing data using current time in "Chatlist"
         // and we are pushing data using unique id in "Chats"
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         String timestamp = String.valueOf(System.currentTimeMillis());
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", myuid);
@@ -441,7 +441,7 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("dilihat", false);
         hashMap.put("type", "text");
         databaseReference.child("Chats").push().setValue(hashMap);
-        final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("ChatList").child(uid).child(myuid);
+        final DatabaseReference ref1 = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("ChatList").child(uid).child(myuid);
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -455,7 +455,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-        final DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("ChatList").child(myuid).child(uid);
+        final DatabaseReference ref2 = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("ChatList").child(myuid).child(uid);
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1054171308892",
+    "firebase_url": "https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fitmap-cb19a",
+    "storage_bucket": "fitmap-cb19a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054171308892:android:324ce3a21767300c709799",
+        "android_client_info": {
+          "package_name": "com.oniverse.fitmap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNSwMq8u-ScybVGyxo40RM6C1B_1ysdxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
