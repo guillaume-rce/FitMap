@@ -42,6 +42,7 @@ public class ChatListFragment extends Fragment {
     FirebaseUser firebaseUser;
     AdapterChatList adapterChatList;
     List<ModelChat> chatList;
+    ImageButton startNewConversationButton;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -60,15 +61,12 @@ public class ChatListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        ImageButton startNewConversationButton = view.findViewById(R.id.startNewConversationButton);
+        startNewConversationButton = view.findViewById(R.id.startNewConversationButton);
         startNewConversationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lancez une nouvelle activité ou un fragment pour la conversation
-                // Vous devez remplacer "UID_DU_NOUVEL_INTERLOCUTEUR" par l'UID réel de l'interlocuteur
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("uid", "6uMHqSXKgeM3QVQunehySeO26Iy1");
-                startActivity(intent);
+                // todo  afficher un fragment
+
             }
         });
         // getting current user

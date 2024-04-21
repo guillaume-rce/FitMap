@@ -61,7 +61,7 @@ public class ChatActivity extends AppCompatActivity {
     ImageView profile;
     TextView name, userstatus;
     EditText msg;
-    ImageButton send, attach;
+    ImageButton send, attach, backbtn;
     FirebaseAuth firebaseAuth;
     String uid, myuid, image;
     ValueEventListener valueEventListener;
@@ -92,6 +92,7 @@ public class ChatActivity extends AppCompatActivity {
         msg = findViewById(R.id.messaget);
         send = findViewById(R.id.sendmsg);
         attach = findViewById(R.id.attachbtn);
+        backbtn = findViewById(R.id.returnButton);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView = findViewById(R.id.chatrecycle);
@@ -125,6 +126,12 @@ public class ChatActivity extends AppCompatActivity {
                     sendmessage(message);
                 }
                 msg.setText("");
+            }
+        });
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -165,6 +172,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         readMessages();
+
     }
 
 
