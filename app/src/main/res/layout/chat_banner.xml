@@ -12,43 +12,54 @@
 
     <ImageButton
         android:id="@+id/returnButton"
-        android:layout_width="0dp"
+        android:layout_width="46dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:backgroundTint="#00FFFFFF"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/returnbutton"
-        android:contentDescription="@string/logoDesc" />
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/logoDesc"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/returnbutton" />
 
-    <ImageButton
-        android:id="@+id/profileimage"
-        android:layout_width="0dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profiletv"
+        android:layout_width="58dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:backgroundTint="#00FFFFFF"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        app:srcCompat="@drawable/ic_profile"
-        android:contentDescription="@string/logoDesc" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_profile"
+        app:civ_circle_background_color="@color/background_tint" />
+
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:padding="15dp" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/usernameView"
+            android:id="@+id/nameptv"
+            android:layout_width="284dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="HisName"
+            android:textColor="@color/black"
+            android:paddingStart="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/onlinetv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search"
-            android:gravity="start|center"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:text="@string/profile_username"/>
+            android:layout_height="wrap_content"
+            android:text="Online"
+            android:paddingStart="10dp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
     </LinearLayout>
+
     <ImageButton
         android:id="@+id/callbutton"
         android:layout_width="0dp"

@@ -8,71 +8,16 @@
     android:backgroundTint="@color/background_tint"
     tools:context=".ChatActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@+id/toolbar"
+        layout="@layout/chat_banner"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/greenDark"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profiletv"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_profile"
-                app:civ_circle_background_color="@color/background_tint" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/nameptv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="HisName"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/onlinetv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Online"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/block"
-                android:layout_width="86dp"
-                android:layout_height="54dp"
-                android:layout_gravity="center_vertical"
-                android:background="@color/blue"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_phone" />
-        </LinearLayout>
-
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="61dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatrecycle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="618dp"
         android:layout_above="@id/chatlayout"
         android:layout_below="@id/toolbar" />
 

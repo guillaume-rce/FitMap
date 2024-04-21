@@ -67,7 +67,7 @@ public class ChatListFragment extends Fragment {
                 // Lancez une nouvelle activité ou un fragment pour la conversation
                 // Vous devez remplacer "UID_DU_NOUVEL_INTERLOCUTEUR" par l'UID réel de l'interlocuteur
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("uid", "3fkv4QILpNetKL0OH0lrpmB7iFI3");
+                intent.putExtra("uid", "6uMHqSXKgeM3QVQunehySeO26Iy1");
                 startActivity(intent);
             }
         });
