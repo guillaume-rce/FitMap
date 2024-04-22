@@ -4,6 +4,8 @@ package com.oniverse.fitmap.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +28,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.oniverse.fitmap.R;
+import com.oniverse.fitmap.TrackActivity;
 import com.oniverse.fitmap.models.ModelChat;
+import com.oniverse.fitmap.modules.tracks.Track;
+import com.oniverse.fitmap.modules.tracks.TrackList;
 
 import java.util.Calendar;
 import java.util.List;
@@ -47,6 +52,8 @@ public class AdapterChat extends RecyclerView.Adapter<com.oniverse.fitmap.adapte
     List<ModelChat> list;
     String imageurl;
     FirebaseUser firebaseUser;
+    boolean isTrack = false;
+    Track track = null;
 
     /**
      * Constructor
@@ -97,15 +104,26 @@ public class AdapterChat extends RecyclerView.Adapter<com.oniverse.fitmap.adapte
         String timedate = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
         holder.message.setText(message);
         holder.time.setText(timedate);
+
         try {
             Glide.with(context).load(imageurl).into(holder.image);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { e.printStackTrace(); }
         if (type.equals("text")) {
+            if (message.contains("TrackId:")) {
+                // Get the id next to TrackId:
+                String trackId = message.substring(message.indexOf("TrackId:") + 8);
+                track = TrackList.getInstance().getTrack(Long.parseLong(trackId));
+                if (track != null) {
+                    isTrack = true;
+                    message = "Track: " + track.name;
+                } else {
+                    message = "Unknown track with id " + trackId;
+                }
+            }
             holder.message.setVisibility(View.VISIBLE);
             holder.mimage.setVisibility(View.GONE);
             holder.message.setText(message);
+
         } else {
             holder.message.setVisibility(View.GONE);
             holder.mimage.setVisibility(View.VISIBLE);
@@ -121,36 +139,46 @@ public class AdapterChat extends RecyclerView.Adapter<com.oniverse.fitmap.adapte
              */
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Delete Message");
-                builder.setMessage("Are You Sure To Delete This Message");
-                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    /**
-                     * onClick
-                     * This method is used to handle the click event for the chat list in the ChatActivity.
-                     * @param dialog The dialog
-                     * @param which The which
-                     * @return void
-                     */
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteMsg(position);
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    /**
-                     * onClick
-                     * This method is used to handle the click event for the chat list in the ChatActivity.
-                     * @param dialog The dialog
-                     * @param which The which
-                     * @return void
-                     */
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
+                if (!isTrack) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Delete Message");
+                    builder.setMessage("Are You Sure To Delete This Message");
+                    builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        /**
+                         * onClick
+                         * This method is used to handle the click event for the chat list in the ChatActivity.
+                         *
+                         * @param dialog The dialog
+                         * @param which  The which
+                         * @return void
+                         */
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteMsg(position);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        /**
+                         * onClick
+                         * This method is used to handle the click event for the chat list in the ChatActivity.
+                         *
+                         * @param dialog The dialog
+                         * @param which  The which
+                         * @return void
+                         */
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+                } else {
+                    Intent intent = new Intent(context, TrackActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("track", track);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
             }
         });
     }

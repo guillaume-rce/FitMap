@@ -98,6 +98,9 @@ public class TrackInfo extends Fragment {
             throw new IllegalStateException("One or more buttons are not initialized!");
         }
 
+        ImageButton share = view.findViewById(R.id.share_button);
+        share.setOnClickListener(this::shareTrack);
+
         if (getArguments() != null) {
             String track = getArguments().getString(ARG_PARAM1);
             assert track != null;

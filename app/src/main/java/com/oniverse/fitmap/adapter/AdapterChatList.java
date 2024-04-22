@@ -2,6 +2,7 @@ package com.oniverse.fitmap.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.oniverse.fitmap.ChatActivity;
 import com.oniverse.fitmap.R;
 import com.oniverse.fitmap.models.ModelUsers;
+import com.oniverse.fitmap.modules.tracks.Track;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,7 @@ public class AdapterChatList extends RecyclerView.Adapter<AdapterChatList.Myhold
     Context context;
     FirebaseAuth firebaseAuth;
     String uid;
+    Track track;
     /**
      * Constructor
      * This method is used to create the adapter for the chat list in the ChatActivity.
@@ -102,6 +105,11 @@ public class AdapterChatList extends RecyclerView.Adapter<AdapterChatList.Myhold
 
                 // putting uid of user in extras
                 intent.putExtra("uid", hisuid);
+                if (track != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("track", track);
+                    intent.putExtras(bundle);
+                }
                 context.startActivity(intent);
             }
         });
@@ -124,6 +132,11 @@ public class AdapterChatList extends RecyclerView.Adapter<AdapterChatList.Myhold
     public int getItemCount() {
         return usersList.size();
     }
+
+    public void setTrack(Track track) {
+        this.track = track;
+    }
+
     /**
      * Myholder
      * Purpose: View holder for chat list in ChatActivity

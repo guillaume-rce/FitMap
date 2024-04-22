@@ -46,6 +46,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.oniverse.fitmap.adapter.AdapterChat;
 import com.oniverse.fitmap.models.ModelChat;
+import com.oniverse.fitmap.modules.tracks.Track;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -78,12 +79,21 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference users;
     boolean notify = false;
+    Track track;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        // Get track
+        if (getIntent() != null) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                track = (Track) bundle.getSerializable("track");
+            }
+        }
 
         // initialise the text views and layouts
         profile = findViewById(R.id.profiletv);
@@ -115,6 +125,11 @@ public class ChatActivity extends AppCompatActivity {
                 showImagePicDialog();
             }
         });
+
+        if (track != null) {
+            System.out.println("ChatActivity track: " + track);
+            sendmessage("TrackId:" + track.id);
+        }
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,6 +291,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // request for permission if not given
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case CAMERA_REQUEST: {
                 if (grantResults.length > 0) {
