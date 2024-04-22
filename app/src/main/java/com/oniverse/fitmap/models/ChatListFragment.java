@@ -30,6 +30,7 @@ import com.oniverse.fitmap.adapter.AdapterChatList;
 import com.oniverse.fitmap.fragment.UserSearchFragment;
 import com.oniverse.fitmap.models.ModelChat;
 import com.oniverse.fitmap.models.ModelChatList;
+import com.oniverse.fitmap.modules.tracks.Track;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class ChatListFragment extends Fragment {
     AdapterChatList adapterChatList;
     List<ModelChat> chatList;
     ImageButton startNewConversationButton;
+    Track track;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -61,6 +63,11 @@ public class ChatListFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Get the track
+        if (getArguments() != null) {
+            Bundle bundle = getArguments();
+            track = (Track) bundle.getSerializable("track");
+        }
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
@@ -122,6 +129,9 @@ public class ChatListFragment extends Fragment {
                         }
                     }
                     adapterChatList = new AdapterChatList(getActivity(), usersList);
+                    if (track != null) {
+                        adapterChatList.setTrack(track);
+                    }
                     recyclerView.setAdapter(adapterChatList);
 
                     // getting last message of the user

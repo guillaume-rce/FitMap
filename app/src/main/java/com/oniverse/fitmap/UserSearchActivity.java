@@ -45,7 +45,7 @@ public class UserSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_search);
         binding = ActivityUserSearchBinding.inflate(getLayoutInflater());
-          View view = binding.getRoot();
+        View view = binding.getRoot();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = findViewById(R.id.userRecyclerView);
@@ -61,5 +61,5 @@ public class UserSearchActivity extends AppCompatActivity {
 
         // remplir la recyclerView avec les infos de l'utilisateur dans ce layout
 
-
+    }
 }

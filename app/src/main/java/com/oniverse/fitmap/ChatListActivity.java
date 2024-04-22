@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.oniverse.fitmap.models.ChatListFragment;
+import com.oniverse.fitmap.modules.tracks.Track;
 import com.oniverse.fitmap.service.Localisation;
 
 public class ChatListActivity extends AppCompatActivity {
@@ -19,10 +20,24 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list); // Assurez-vous d'avoir un layout pour cette activité
 
+        // Recupérer le serializable "track" de l'intent
+        Track track = null;
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            track = (Track) bundle.getSerializable("track");
+        }
+
         // Vérifiez si l'activité est créée pour la première fois
         if (savedInstanceState == null) {
             // Ajoutez le fragment au conteneur de fragment
             ChatListFragment chatListFragment = new ChatListFragment();
+            if (track != null) {
+                System.out.println("ChatListActivity track: " + track);
+                Bundle args = new Bundle();
+                args.putSerializable("track", track);
+                chatListFragment.setArguments(args);
+            }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fragment_container, chatListFragment);
             transaction.commit();
