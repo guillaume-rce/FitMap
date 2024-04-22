@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadTracks() {
         if (!tracksLoaded) {
             tracksLoaded = true;
-            total_page = 2;
+            total_page = 10;
             /*
             If you want to load all tracks, you can use the following code:
             total_page = TrackList.getInstance().getApiMetaData().totalPage;
