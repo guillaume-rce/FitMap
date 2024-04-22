@@ -27,9 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.oniverse.fitmap.ChatActivity;
 import com.oniverse.fitmap.R;
 import com.oniverse.fitmap.adapter.AdapterChatList;
-import com.oniverse.fitmap.fragment.UserSearchFragment;
-import com.oniverse.fitmap.models.ModelChat;
-import com.oniverse.fitmap.models.ModelChatList;
 import com.oniverse.fitmap.modules.tracks.Track;
 
 import java.util.ArrayList;
