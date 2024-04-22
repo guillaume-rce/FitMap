@@ -1,19 +1,20 @@
 package com.oniverse.fitmap.models;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,11 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.oniverse.fitmap.ChatActivity;
 import com.oniverse.fitmap.R;
-import com.oniverse.fitmap.UserSearchActivity;
 import com.oniverse.fitmap.adapter.AdapterChatList;
-import com.oniverse.fitmap.fragment.UserSearchFragment;
-import com.oniverse.fitmap.models.ModelChat;
-import com.oniverse.fitmap.models.ModelChatList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +67,35 @@ public class ChatListFragment extends Fragment {
         startNewConversationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(getActivity(), UserSearchActivity.class);
-                startActivity(intent);
+                // Créer une boîte de dialogue pour demander l'email
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Start New Conversation");
+
+                // Conception du champ de saisie
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                builder.setView(input);
+
+                // Ajouter les boutons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String email = input.getText().toString();
+                        // Vérifier l'existence de l'email dans la base de données
+                        checkEmailExistence(email);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
             }
         });
+
         // getting current user
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = view.findViewById(R.id.chatlistrecycle);
@@ -182,6 +204,41 @@ public class ChatListFragment extends Fragment {
             }
         });
     }
+    private void checkEmailExistence(String email) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // L'email existe, récupérer l'ID de l'utilisateur
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        String userId = userSnapshot.getKey();
+                        // Ouvrir la page de chat avec l'ID de l'utilisateur
+                        openChatPage(userId);
+                        break; // Sortir de la boucle après avoir trouvé le premier utilisateur correspondant
+                    }
+                } else {
+                    // L'email n'existe pas, afficher un message d'erreur
+                    Toast.makeText(getContext(), "Email not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+            private void openChatPage(String userId) {
+                // Ici, vous pouvez naviguer vers une nouvelle activité ou un fragment de chat
+                // Par exemple, en utilisant un Intent pour démarrer une nouvelle activité
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                intent.putExtra("uid", userId);
+                startActivity(intent);
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Gérer l'erreur
+            }
+        });
+    }
+
+
     /**
      * Called when the fragment is created.
      *
