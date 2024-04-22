@@ -80,6 +80,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="share_activity">Share activity</string>
     <string name="userseach_waiting">Search users with email or name...</string>
     <string name="login">Se connecter</string>
     <string name="skip_inscription">Abandonner l\'inscription</string>

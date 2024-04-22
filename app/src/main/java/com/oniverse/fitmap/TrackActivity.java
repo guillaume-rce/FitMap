@@ -23,6 +23,7 @@ public class TrackActivity extends AppCompatActivity {
     private ActivityTrackBinding binding;
     private MapRenderer mapRenderer;
     private Localisation localisationService;
+    private Track track;
     private boolean isBound = false;
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -53,7 +54,7 @@ public class TrackActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         assert bundle != null;
-        Track track = (Track) bundle.getSerializable("track");
+        track = (Track) bundle.getSerializable("track");
 
         mapRenderer = new MapRenderer(binding.map);
         mapRenderer.setZoom(15);
@@ -90,6 +91,17 @@ public class TrackActivity extends AppCompatActivity {
     public void stopLiveTracking() {
         setLiveTracking(false);
         mapRenderer.clearPolylineLive(); // Clear the polyline on the map
+    }
+
+    /**
+     * This method will share the track to the conversation activity.
+     */
+    public void shareTrack() {
+        Intent intent = new Intent(getApplicationContext(), ChatListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("track", track);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**

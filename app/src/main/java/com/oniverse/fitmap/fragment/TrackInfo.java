@@ -215,6 +215,15 @@ public class TrackInfo extends Fragment {
             activity.stopLiveTracking();
         }
     }
+
+    public void shareTrack(View view) {
+        // Share the track
+        TrackActivity activity = (TrackActivity) getActivity();
+        if (activity != null) {
+            activity.shareTrack();
+        }
+    }
+
     /**
      * Go back to the explore activity.
      *
