@@ -86,18 +86,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/trackinfo_title"
-                            android:textSize="24sp"
+                            android:textSize="30sp"
                             android:scrollHorizontally="true"
                             android:singleLine="true" />
 
                     </HorizontalScrollView>
 
                     <ImageButton
+                        android:id="@+id/share_button"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/favorite"
-                        android:backgroundTint="#00FFFFFF"/>
+                        android:src="@drawable/ic_share"
+                        android:scaleType="centerCrop"
+                        android:backgroundTint="#00FFFFFF"
+                        android:contentDescription="@string/share_activity" />
 
                 </LinearLayout>
 
