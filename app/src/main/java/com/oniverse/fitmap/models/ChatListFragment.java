@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.oniverse.fitmap.ChatActivity;
 import com.oniverse.fitmap.R;
 import com.oniverse.fitmap.adapter.AdapterChatList;
+import com.oniverse.fitmap.fragment.UserSearchFragment;
 import com.oniverse.fitmap.models.ModelChat;
 import com.oniverse.fitmap.models.ModelChatList;
 
@@ -65,8 +69,13 @@ public class ChatListFragment extends Fragment {
         startNewConversationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo  afficher un fragment
-
+                FragmentContainerView fragmentContainerView = view.findViewById(R.id.user_fragment_container);
+                UserSearchFragment  userSearchFragment = new UserSearchFragment();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.user_fragment_container, userSearchFragment);
+                fragmentTransaction.commit();
+                fragmentTransaction.commit();
             }
         });
         // getting current user

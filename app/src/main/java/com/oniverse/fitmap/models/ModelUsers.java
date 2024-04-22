@@ -4,6 +4,7 @@ package com.oniverse.fitmap.models;
  */
 public class ModelUsers {
     String name, email, search, phone, image, cover, uid, typingTo, onlineStatus, typing;
+    Long profileImage;
 
     public ModelUsers() {
     }
@@ -19,6 +20,7 @@ public class ModelUsers {
         this.typingTo = typingTo;
         this.onlineStatus = onlineStatus;
         this.typing = typing;
+
     }
 
     public String getName() {
@@ -99,6 +101,13 @@ public class ModelUsers {
 
     public void setTyping(String typing) {
         this.typing = typing;
+    }
+
+    public Long getProfileImage() {
+        return profileImage;
+    }
+    public void setProfileImage(Long profileImage) {
+        this.profileImage = profileImage;
     }
 }
 
