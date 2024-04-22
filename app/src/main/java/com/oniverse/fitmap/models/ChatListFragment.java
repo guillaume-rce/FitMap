@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.oniverse.fitmap.ChatActivity;
 import com.oniverse.fitmap.R;
+import com.oniverse.fitmap.UserSearchActivity;
 import com.oniverse.fitmap.adapter.AdapterChatList;
 import com.oniverse.fitmap.fragment.UserSearchFragment;
 import com.oniverse.fitmap.models.ModelChat;
@@ -69,13 +70,8 @@ public class ChatListFragment extends Fragment {
         startNewConversationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentContainerView fragmentContainerView = view.findViewById(R.id.user_fragment_container);
-                UserSearchFragment  userSearchFragment = new UserSearchFragment();
-                FragmentManager fragmentManager = getChildFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.user_fragment_container, userSearchFragment);
-                fragmentTransaction.commit();
-                fragmentTransaction.commit();
+               Intent intent = new Intent(getActivity(), UserSearchActivity.class);
+                startActivity(intent);
             }
         });
         // getting current user

@@ -20,6 +20,7 @@ public class SigninActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Button signInButton;
     private FirebaseAuth mAuth;
+    TextView registertextview , quitRegisterTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class SigninActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         signInButton = findViewById(R.id.signInButton);
+        registertextview = findViewById(R.id.registerTextView);
+        quitRegisterTextView = findViewById(R.id.quitregisterTextView);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -47,12 +50,19 @@ public class SigninActivity extends AppCompatActivity {
             }
         });
 
-        TextView registertextview = findViewById(R.id.registerTextView);
 
         registertextview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SigninActivity.this,RegisterActivity.class));
+                finish();
+            }
+        });
+
+        quitRegisterTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SigninActivity.this,HomeActivity.class));
                 finish();
             }
         });

@@ -25,9 +25,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText nameEditText, firstNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     private Button signUpButton;
-    private TextView signInTextView;
+    private TextView signInTextView, quitTextView;
     private FirebaseAuth mAuth;
+    TextView alreadyHaveAccount;
     private DatabaseReference mDatabase;
+
 
     /**
      * Required empty public constructor
@@ -38,14 +40,16 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register); // Assurez-vous que c'est le bon layout
+        setContentView(R.layout.activity_register);
         nameEditText = findViewById(R.id.nameEditText);
+        quitTextView = findViewById(R.id.quitTextView);
         firstNameEditText = findViewById(R.id.firstNameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-        signUpButton = findViewById(R.id.signInButton); // Assurez-vous que l'ID est correct
+        signUpButton = findViewById(R.id.signInButton);
         signInTextView = findViewById(R.id.signUpTextView);
+        alreadyHaveAccount = findViewById(R.id.signUpTextView);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance("https://fitmap-bee8d-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
@@ -72,6 +76,13 @@ public class RegisterActivity extends AppCompatActivity {
                 signUp(email, password, name, firstName);
             }
         });
+        quitTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this,HomeActivity.class));
+                finish();
+            }
+        });
 
         signInTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +91,6 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        TextView alreadyHaveAccount = findViewById(R.id.signUpTextView);
 
         alreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
         ModelUsers newUser = new ModelUsers(name, user.getEmail(), "search", "phone", "image", "cover", user.getUid(), "typingTo", "onlineStatus", "typing");
 
         // Correction : Suppression de la syntaxe incorrecte pour la référence à la base de données
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
+        mDatabase = FirebaseDatabase.getInstance("https://fitmap-cb19a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
 
         // Correction : Utilisation de la référence correcte pour enregistrer l'utilisateur
         mDatabase.child(user.getUid()).setValue(newUser)
